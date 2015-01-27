@@ -65,7 +65,7 @@ class LinReg(object):
         :param X: new data to make predictions on
         :return: return prediction
         """
-        prediction = X.dot(theta).flatten()
+        prediction = X.dot(self.theta).flatten()
         return prediction
 
 
