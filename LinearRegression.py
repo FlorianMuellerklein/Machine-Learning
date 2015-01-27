@@ -8,7 +8,7 @@ class LinReg(object):
     First try at simple linear regression class in python
     takes five arguments: train_X, train_y, alpha, theta, iterations for SGD
     '''
-    def __init__(self, X, y, alpha, theta, iterations):
+    def __init__(self, X, y, alpha, iterations):
         self.X = X
         self.y = y
         self.theta = np.zeros(shape = (2,1))
@@ -28,6 +28,7 @@ class LinReg(object):
         X = self.X
         y = self.y
         m = y.size
+        theta = self.theta
         J_history = np.zeros(shape = (self.iterations, 1))
         
         for i in range(self.iterations):
@@ -36,8 +37,8 @@ class LinReg(object):
             errors_x1 = (predictions - y) * X[:,0]
             errors_x2 = (predictions - y) * X[:,1]
 			
-            self.theta[0][0] = theta[0][0] - self.alpha * (1.0 / m) * errors_x1.sum()
-            self.theta[1][0] = theta[1][0] - self.alpha * (1.0 / m) * errors_x1.sum()
+            theta[0][0] = theta[0][0] - self.alpha * (1.0 / m) * errors_x1.sum()
+            theta[1][0] = theta[1][0] - self.alpha * (1.0 / m) * errors_x1.sum()
 			
             J_history[i, 0] = self.compute_cost()
             print theta
