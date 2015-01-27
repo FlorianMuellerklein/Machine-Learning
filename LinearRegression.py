@@ -9,20 +9,20 @@ class LinReg(object):
     takes five arguments: train_X, train_y, alpha, theta, iterations for SGD
     '''
     def __init__(self, X, y, alpha, theta, iterations):
-		self.X = X
-		self.y = y
-		self.theta = theta
-		self.alpha = alpha
-		self.iterations = iterations
+        self.X = X
+        self.y = y
+        self.theta = theta
+        self.alpha = alpha
+        self.iterations = iterations
     
     def compute_cost(self):
-		m = self.y.size
+        m = self.y.size
 		
-		predictions = self.X.dot(self.theta).flatten()
+        predictions = self.X.dot(self.theta).flatten()
+
+        sqErrors = (predictions - y) ** 2
 		
-		sqErrors = (predictions - y) ** 2
-		
-		return (1.0 / (2 * m)) * sqErrors.sum()
+        return (1.0 / (2 * m)) * sqErrors.sum()
     
     def gradient_descent(self):
         X = self.X
