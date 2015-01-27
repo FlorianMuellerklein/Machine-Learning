@@ -11,7 +11,7 @@ class LinReg(object):
     def __init__(self, X, y, alpha, theta, iterations):
         self.X = X
         self.y = y
-        self.theta = theta
+        self.theta = np.zeros(shape = (2,1))
         self.alpha = alpha
         self.iterations = iterations
     
@@ -46,9 +46,8 @@ class LinReg(object):
 
 
 # initialize linear regression parameters
-theta = np.zeros(shape = (2,1))
 iterations = 1500
-alpha = 0.01
+alpha = 0.001
 
 # load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
 data = np.loadtxt('ex1data1.txt', delimiter = ',')
@@ -63,7 +62,7 @@ it[:,1] = X
 # plot the data with seaborn (add this later)
 
 # fit the linear reg
-linearReg = LinReg(X = it, y = y, alpha = alpha, theta = theta, iterations = iterations)
+linearReg = LinReg(X = it, y = y, alpha = alpha, iterations = iterations)
 theta, J_history = linearReg.gradient_descent()
 
 # make a predictions with X = 3.5
