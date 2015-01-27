@@ -36,19 +36,23 @@ class LinReg(object):
         theta = self.theta
         J_history = np.zeros(shape = (self.iterations, 1))
         
+        # add column of 1s to data to fit intercept
+        X_int = np.ones(shape = (m,2))
+        X_int[:,1] = X
+        
         i = 0
         tol = 1
         #for i in range(self.iterations):
         while tol > self.tolerance:
-            predictions = X.dot(theta).flatten()
+            predictions = X_int.dot(theta).flatten()
 			
-            errors_x1 = (predictions - y) * X[:,0]
-            errors_x2 = (predictions - y) * X[:,1]
+            errors_x1 = (predictions - y) * X_int[:,0]
+            errors_x2 = (predictions - y) * X_int[:,1]
 			
             theta[0][0] = theta[0][0] - self.alpha * (1.0 / m) * errors_x1.sum()
             theta[1][0] = theta[1][0] - self.alpha * (1.0 / m) * errors_x2.sum()
 			
-            J_history[i, 0] = self.compute_cost(X, y, theta)
+            J_history[i, 0] = self.compute_cost(X_int, y, theta)
             if i > 1:
                 tol = J_history[i-1,0] - J_history[i,0]
             if i % 100 == 0:
@@ -79,17 +83,11 @@ data = np.loadtxt('ex1data1.txt', delimiter = ',')
 X = data[:,0]
 y = data[:,1]
 
-# add a column of ones to X (intercept data)
-m = y.size
-it = np.ones(shape = (m,2))
-it[:,1] = X
-#print it
-
 # plot the data with seaborn (add this later)
 
 # fit the linear reg
 linearReg = LinReg(alpha = alpha, iterations = iterations, tolerance = tolerance)
-theta, J_history = linearReg.gradient_descent(X = it, y = y)
+theta, J_history = linearReg.gradient_descent(X = X, y = y)
 
 # make a predictions with X = 3.5
 print linearReg.predict(np.array([1, 3.5]))
