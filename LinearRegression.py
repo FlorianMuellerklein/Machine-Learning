@@ -11,9 +11,9 @@ class LinReg(object):
     def __init__(self, X, y, alpha, iterations):
         self.X = X
         self.y = y
-        self.theta = np.zeros(shape = (2,1))
         self.alpha = alpha
         self.iterations = iterations
+        self.theta = np.zeros(shape = (2,1))
     
     def compute_cost(self):
         m = self.y.size
