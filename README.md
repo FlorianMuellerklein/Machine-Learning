@@ -5,3 +5,5 @@ popcorn.sentiment.sklearn.py - basic sentiment analysis script that converts lis
 
 LinearRegression.py - python version of simple linear regression from scratch!
 	ex1data1.txt - example data to run linear regression
+
+This will be great. 
