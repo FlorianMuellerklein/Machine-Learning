@@ -7,7 +7,7 @@ import numpy as np
 
 class LinReg(object):
 	""" Classic linear regression
-    First try at simple linear regression class in python
+	First try at simple linear regression class in python
     takes five arguments: train_X, train_y, alpha, theta, iterations for SGD
 	"""
 	def __init__(self, X, y, alpha, iterations):
@@ -29,7 +29,7 @@ class LinReg(object):
 		sqErrors = (predictions - y) ** 2
 		
 		return (1.0 / (2 * m)) * sqErrors.sum()
-    
+
 	def gradient_descent(self):
 		""" Search algorithm - loops over theta and updates to
 		 take steps in direction of steepest decrease of J.
@@ -41,20 +41,31 @@ class LinReg(object):
 		m = self.y.size
 		#theta = self.theta
 		J_history = np.zeros(shape = (self.iterations, 1))
-        
+
 		for i in range(self.iterations):
 			predictions = self.X.dot(self.theta).flatten()
 			
 			errors_x1 = (predictions - self.y) * self.X[:,0]
 			errors_x2 = (predictions - self.y) * self.X[:,1]
-			
-			theta[0][0] = theta[0][0] - self.alpha * (1.0 / m) * errors_x1.sum()
-			theta[1][0] = theta[1][0] - self.alpha * (1.0 / m) * errors_x1.sum()
+
+			self.theta[0][0] = self.theta[0][0] - self.alpha * (1.0 / m) * errors_x1.sum()
+			self.theta[1][0] = self.theta[1][0] - self.alpha * (1.0 / m) * errors_x2.sum()
 			
 			J_history[i, 0] = self.compute_cost()
-			print theta
+			if i % 100 == 0:
+				print 'theta:', self.theta
 
-		return theta, J_history
+		# no need to return a self.theta because it is self (in init)
+		return self.theta, J_history
+
+	def predict(self, X):
+		""" make linear prediction based on cost and gradient descent
+		:param X: EXPLAIN WHAT X IS HERE (note: no need to have X beacuse self.x)
+		:return: return prediction
+		"""
+		# predction = self.X.dot(self.theta).flatten()
+		prediction = X.dot(self.theta).flatten()
+		return prediction
 
 
 # initialize linear regression parameters
@@ -70,6 +81,7 @@ y = data[:,1]
 m = y.size
 it = np.ones(shape = (m,2))
 it[:,1] = X
+#print it
 
 # plot the data with seaborn (add this later)
 
@@ -78,6 +90,4 @@ linearReg = LinReg(X = it, y = y, alpha = alpha, iterations = iterations)
 theta, J_history = linearReg.gradient_descent()
 
 # make a predictions with X = 3.5
-# !!!! figure out how to make a .fit and .predict thing like sklearn !!!
-
-print np.array([1,3.5]).dot(theta).flatten()
+print linearReg.predict(np.array([1, 3.5]))
