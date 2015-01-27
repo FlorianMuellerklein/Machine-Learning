@@ -32,7 +32,7 @@ class LinReg(object):
         J_history = np.zeros(shape = (self.iterations, 1))
         
         for i in range(self.iterations):
-            predictions = X.dot(self.theta).flatten()
+            predictions = X.dot(theta).flatten()
 			
             errors_x1 = (predictions - y) * X[:,0]
             errors_x2 = (predictions - y) * X[:,1]
