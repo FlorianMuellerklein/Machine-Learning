@@ -18,7 +18,7 @@ class LinReg(object):
 		self.theta = np.zeros(shape = (2,1))
 
 	def compute_cost(self):
-		""" calculate mean squared error by subtracting true from predicted
+		""" Calculate mean squared error by subtracting true from predicted
 		and dividing by 2
 		:return: mean squared error
 		"""
@@ -31,7 +31,7 @@ class LinReg(object):
 		return (1.0 / (2 * m)) * sqErrors.sum()
     
 	def gradient_descent(self):
-		""" search algorithm - loops over theta and updates to
+		""" Search algorithm - loops over theta and updates to
 		 take steps in direction of steepest decrease of J.
 		:return: value of theta that minimizes J(theta) and J_history
 		"""
