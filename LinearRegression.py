@@ -17,18 +17,36 @@ class LinReg(object):
 		self.mean = [];
 		self.std = [];
 
-	def transform(self):
+	def import_data(self):
+		"""
+		Import data file
+		:return: data, X, and y for data transform
+		"""
+		data = np.loadtxt('ex1data1.txt', delimiter = ',')
+		X = data[:,0]
+		y = data[:,1]
+		return data, X, y
+
+	def transform(self, data, X, y):
 		"""
 		Calculate mean and standard deviation of data
 		Transform data by subtracting by mean and
 		dividing by std
+		:param data: data file
+		:param X: first col from data
+		:param y: second col from data
 		:return: transformed data
 		"""
+
+		# this does not really make sense if we will have multiple vars
+		# but this is the idea!
+
 		self.mean = np.mean(data, axis=1)
 		self.std = np.std(data, axis=1)
 
 		# transform
-		return (data - self.mean) / self.std
+		data = (data - self.mean) / self.std
+		return data
 
 	def compute_cost(self, X, y, theta):
 		"""
@@ -97,15 +115,22 @@ iterations = 15000
 alpha = 0.01
 tolerance = 0.00001
 
-# load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
-data = np.loadtxt('ex1data1.txt', delimiter = ',')
-X = data[:,0]
-y = data[:,1]
-
 # plot the data with seaborn (add this later)
 
-# fit the linear reg
 linearReg = LinReg(alpha = alpha, iterations = iterations, tolerance = tolerance)
+
+# load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
+#data = np.loadtxt('ex1data1.txt', delimiter = ',')
+#X = data[:,0]
+#y = data[:,1]
+data, X, y = linearReg.import_data()
+
+# transform data
+data = linearReg.transform(data, X, y)
+X = data[:, 0]
+y = data[:, 1]
+
+# fit the linear reg
 theta, J_history = linearReg.gradient_descent(X = X, y = y)
 
 # make a predictions with X = 3.5

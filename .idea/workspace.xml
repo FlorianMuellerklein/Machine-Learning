@@ -54,8 +54,8 @@
       <file leaf-file-name="LinearRegression.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LinearRegression.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.48160535" vertical-offset="3" max-vertical-offset="1755">
-              <caret line="29" column="19" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
+            <state vertical-scroll-proportion="0.7826087" vertical-offset="1203" max-vertical-offset="2130">
+              <caret line="127" column="16" selection-start-line="127" selection-start-column="16" selection-end-line="127" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -368,8 +368,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LinearRegression.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48160535" vertical-offset="3" max-vertical-offset="1755">
-          <caret line="29" column="19" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.7826087" vertical-offset="1203" max-vertical-offset="2130">
+          <caret line="127" column="16" selection-start-line="127" selection-start-column="16" selection-end-line="127" selection-end-column="16" />
           <folding />
         </state>
       </provider>
