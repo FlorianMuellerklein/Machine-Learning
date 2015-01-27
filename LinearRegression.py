@@ -15,10 +15,10 @@ class LinReg(object):
         self.theta = np.zeros(shape = (2,1))
     
     def compute_cost(self, X, y, theta):
-		""" Calculate mean squared error by subtracting true from predicted
-		and dividing by 2
-		:return: mean squared error
-		"""
+        """ Calculate mean squared error by subtracting true from predicted
+        and dividing by 2
+        :return: mean squared error
+        """
         m = y.size
 		
         predictions = X.dot(theta).flatten()
@@ -28,10 +28,10 @@ class LinReg(object):
         return (1.0 / (2 * m)) * sqErrors.sum()
     
     def gradient_descent(self, X, y):
-		""" Search algorithm - loops over theta and updates to
-		 take steps in direction of steepest decrease of J.
-		:return: value of theta that minimizes J(theta) and J_history
-		"""
+        """ Search algorithm - loops over theta and updates to
+        take steps in direction of steepest decrease of J.
+        :return: value of theta that minimizes J(theta) and J_history
+        """
         m = y.size
         theta = self.theta
         J_history = np.zeros(shape = (self.iterations, 1))
@@ -61,10 +61,10 @@ class LinReg(object):
         return theta, J_history
         
     def predict(self, X):
-		""" Make linear prediction based on cost and gradient descent
-		:param X: new data to make predictions on
-		:return: return prediction
-		"""
+        """ Make linear prediction based on cost and gradient descent
+        :param X: new data to make predictions on
+        :return: return prediction
+        """
         prediction = X.dot(theta).flatten()
         return prediction
 
