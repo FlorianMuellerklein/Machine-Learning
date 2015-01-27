@@ -24,15 +24,11 @@ class LinReg(object):
 		dividing by std
 		:return: transformed data
 		"""
-		n_rows = size(data)		# size for rows
-		n_cols = size(data)		# size for cols
-
-		for i in range(n_cols):
-			self.mean = append(data[:, i])
-			self.std = append(data[:, i])
+		self.mean = np.mean(data, axis=1)
+		self.std = np.std(data, axis=1)
 
 		# transform
-		(data - self.mean) / self.std
+		return (data - self.mean) / self.std
 
 	def compute_cost(self, X, y, theta):
 		"""
