@@ -6,27 +6,23 @@ import numpy as np
 class LinReg(object):
     '''Classic linear regression
     First try at simple linear regression class in python
-    takes five arguments: train_X, train_y, alpha, theta, iterations for SGD
+    takes two arguments: alpha (learning rate), number of iterations for SGD
     '''
-    def __init__(self, X, y, alpha, iterations):
-        self.X = X
-        self.y = y
+    def __init__(self, alpha, iterations):
         self.alpha = alpha
         self.iterations = iterations
         self.theta = np.zeros(shape = (2,1))
     
-    def compute_cost(self):
-        m = self.y.size
+    def compute_cost(self, X, y, theta):
+        m = y.size
 		
-        predictions = self.X.dot(self.theta).flatten()
+        predictions = X.dot(theta).flatten()
 
         sqErrors = (predictions - y) ** 2
 		
         return (1.0 / (2 * m)) * sqErrors.sum()
     
-    def gradient_descent(self):
-        X = self.X
-        y = self.y
+    def gradient_descent(self, X, y):
         m = y.size
         theta = self.theta
         J_history = np.zeros(shape = (self.iterations, 1))
@@ -40,9 +36,10 @@ class LinReg(object):
             theta[0][0] = theta[0][0] - self.alpha * (1.0 / m) * errors_x1.sum()
             theta[1][0] = theta[1][0] - self.alpha * (1.0 / m) * errors_x2.sum()
 			
-            J_history[i, 0] = self.compute_cost()
+            J_history[i, 0] = self.compute_cost(X, y, theta)
             if i % 100 == 0:
                 print 'theta:', theta
+                print 'cost function:', J_history[i,0]
         
         self.theta = theta
         return theta, J_history
@@ -70,8 +67,8 @@ it[:,1] = X
 # plot the data with seaborn (add this later)
 
 # fit the linear reg
-linearReg = LinReg(X = it, y = y, alpha = alpha, iterations = iterations)
-theta, J_history = linearReg.gradient_descent()
+linearReg = LinReg(alpha = alpha, iterations = iterations)
+theta, J_history = linearReg.gradient_descent(X = it, y = y)
 
 # make a predictions with X = 3.5
 print linearReg.predict(np.array([1, 3.5]))
