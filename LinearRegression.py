@@ -29,22 +29,21 @@ class LinReg(object):
         y = self.y
         m = y.size
         J_history = np.zeros(shape = (self.iterations, 1))
-		
+        
         for i in range(self.iterations):
-			predictions = X.dot(self.theta).flatten()
+            predictions = X.dot(self.theta).flatten()
 			
-			errors_x1 = (predictions - y) * X[:,0]
-			errors_x2 = (predictions - y) * X[:,1]
+            errors_x1 = (predictions - y) * X[:,0]
+            errors_x2 = (predictions - y) * X[:,1]
 			
-			self.theta[0][0] = theta[0][0] - self.alpha * (1.0 / m) * errors_x1.sum()
-			self.theta[1][0] = theta[1][0] - self.alpha * (1.0 / m) * errors_x1.sum()
+            self.theta[0][0] = theta[0][0] - self.alpha * (1.0 / m) * errors_x1.sum()
+            self.theta[1][0] = theta[1][0] - self.alpha * (1.0 / m) * errors_x1.sum()
 			
-			J_history[i, 0] = self.compute_cost()
-            
+            J_history[i, 0] = self.compute_cost()
             print theta
-		
+        
         return theta, J_history
-		
+
 
 # initialize linear regression parameters
 theta = np.zeros(shape = (2,1))
