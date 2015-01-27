@@ -27,7 +27,7 @@ class LinReg(object):
 		predictions = self.X.dot(self.theta).flatten()
 
 		sqErrors = (predictions - y) ** 2
-		
+
 		return (1.0 / (2 * m)) * sqErrors.sum()
 
 	def gradient_descent(self):
@@ -36,14 +36,17 @@ class LinReg(object):
 		:return: value of theta that minimizes J(theta) and J_history
 		"""
 		# why create extra variables? They just take up more space
-        #X = self.X
-        #y = self.y
+		#X = self.X
+		#y = self.y
 		m = self.y.size
 		#theta = self.theta
 		J_history = np.zeros(shape = (self.iterations, 1))
 
 		for i in range(self.iterations):
 			predictions = self.X.dot(self.theta).flatten()
+
+			errors_x1 = (predictions - y) * X[:,0]
+			errors_x2 = (predictions - y) * X[:,1]
 			
 			errors_x1 = (predictions - self.y) * self.X[:,0]
 			errors_x2 = (predictions - self.y) * self.X[:,1]
@@ -59,7 +62,7 @@ class LinReg(object):
 		return self.theta, J_history
 
 	def predict(self, X):
-		""" make linear prediction based on cost and gradient descent
+		""" Make linear prediction based on cost and gradient descent
 		:param X: EXPLAIN WHAT X IS HERE (note: no need to have X beacuse self.x)
 		:return: return prediction
 		"""
