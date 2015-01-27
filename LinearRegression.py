@@ -40,6 +40,8 @@ class LinReg(object):
 			self.theta[1][0] = theta[1][0] - self.alpha * (1.0 / m) * errors_x1.sum()
 			
 			J_history[i, 0] = self.compute_cost()
+            
+            print theta
 		
         return theta, J_history
 		
