@@ -38,12 +38,18 @@ class LinReg(object):
             errors_x2 = (predictions - y) * X[:,1]
 			
             theta[0][0] = theta[0][0] - self.alpha * (1.0 / m) * errors_x1.sum()
-            theta[1][0] = theta[1][0] - self.alpha * (1.0 / m) * errors_x1.sum()
+            theta[1][0] = theta[1][0] - self.alpha * (1.0 / m) * errors_x2.sum()
 			
             J_history[i, 0] = self.compute_cost()
-            print theta
+            if i % 100 == 0:
+                print 'theta:', theta
         
+        self.theta = theta
         return theta, J_history
+        
+    def predict(self, X):
+        prediction = X.dot(theta).flatten()
+        return prediction
 
 
 # initialize linear regression parameters
@@ -59,6 +65,7 @@ y = data[:,1]
 m = y.size
 it = np.ones(shape = (m,2))
 it[:,1] = X
+#print it
 
 # plot the data with seaborn (add this later)
 
@@ -67,6 +74,4 @@ linearReg = LinReg(X = it, y = y, alpha = alpha, iterations = iterations)
 theta, J_history = linearReg.gradient_descent()
 
 # make a predictions with X = 3.5
-# !!!! figure out how to make a .fit and .predict thing like sklearn !!!
-
-print np.array([1,3.5]).dot(theta).flatten()
+print linearReg.predict(np.array([1, 3.5]))
