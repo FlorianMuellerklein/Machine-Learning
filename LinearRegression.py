@@ -105,6 +105,8 @@ class LinReg(object):
         :return: return prediction
         """
         X_int = np.hstack((1, X))
-        prediction = X_int.dot(self.theta).flatten()
+        print 'to be predicted:', X_int
+        print 'with theta:', self.theta
+        prediction = np.dot(X_int, self.theta)
         return prediction
 
