@@ -91,7 +91,7 @@ class LinReg(object):
             
             J_history.append(self.compute_cost(X_int, y, theta))
 
-            if i % 1 == 0:
+            if i % 5000 == 0:
                 print 'iteration:', i
                 print 'theta:', theta
 

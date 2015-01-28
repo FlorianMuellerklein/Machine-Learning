@@ -11,14 +11,14 @@ linearReg = LinReg(alpha = alpha, iterations = iterations)
 
 # load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
 data = np.loadtxt('Data/denver.csv', delimiter = ',')
-X = data[:, 1:]
-y = data[:, 0]
+X = data[:, :5]
+y = data[:, 5]
 #data, X, y = linearReg.import_data()
 
 # transform data
-#X = linearReg.transform(X)
-#print X[1,]
-#print X.shape[0]
+X = linearReg.transform(X)
+print X[1,]
+print X.shape[0]
 
 # fit the linear reg
 linearReg.gradient_descent(X = X, y = y)
