@@ -9,10 +9,9 @@ class LinReg(object):
     First try at simple linear regression class in python
     takes two arguments: alpha (learning rate), number of iterations for SGD
     """
-    def __init__(self, alpha, iterations, tolerance):
+    def __init__(self, alpha, iterations):
         self.alpha = alpha
         self.iterations = iterations
-        self.tolerance = tolerance
         self.theta = []
         self.mean = []
         self.std = []
@@ -60,11 +59,11 @@ class LinReg(object):
         """
         m = y.size
         
-        predictions = X.dot(theta)
+        predictions = X.dot(theta).flatten()
         
-        sqErrors = (predictions - y)
+        sqErrors = (predictions - y) ** 2
         
-        return (1.0 / (2 * m)) * sqErrors.T.dot(sqErrors)
+        return (1.0 / (2 * m)) * sqErrors.sum()
     
     def gradient_descent(self, X, y):
         """
@@ -73,7 +72,7 @@ class LinReg(object):
         :return: value of theta that minimizes J(theta) and J_history
         """
         m = y.size
-        #J_history = np.zeros(shape=(self.iterations, 1))
+        J_history = []
 
         # add column of 1s to data to fit intercept
         X_int = np.ones(shape = (m,1))
@@ -97,14 +96,10 @@ class LinReg(object):
                 
                 theta[j][0] = theta[j][0] - alpha * (1.0 / m) * errors_x.sum()
             
-            #J_history[i, 0] = self.compute_cost(X_int, y, theta)
-            
-            #if i > 1:
-                #tol = J_history[i-1,0] - J_history[i,0]
-            if i % 1000 == 0:
+            J_history.append(self.compute_cost(X_int, y, theta))
+
+            if i % 5000 == 0:
                 print 'theta:', theta
-            #print 'cost function:', J_history[i,0]
-        
 
         self.theta = theta
         #return theta, J_history
@@ -123,11 +118,10 @@ class LinReg(object):
 # initialize linear regression parameters
 iterations = 200000
 alpha = 0.0001
-tolerance = 0.00001
 
 # plot the data with seaborn (add this later)
 
-linearReg = LinReg(alpha = alpha, iterations = iterations, tolerance = tolerance)
+linearReg = LinReg(alpha = alpha, iterations = iterations)
 
 # load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
 data = np.loadtxt('ex1data2.txt', delimiter = ',')
