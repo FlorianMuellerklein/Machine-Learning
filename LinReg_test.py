@@ -10,7 +10,7 @@ alpha = 0.0001
 linearReg = LinReg(alpha = alpha, iterations = iterations)
 
 # load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
-data = np.loadtxt('ex1data2.txt', delimiter = ',')
+data = np.loadtxt('Data/ex1data2.txt', delimiter = ',')
 X = data[:, :2]
 y = data[:, 2]
 #data, X, y = linearReg.import_data()
