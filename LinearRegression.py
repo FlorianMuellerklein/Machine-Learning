@@ -94,7 +94,7 @@ class LinReg(object):
                 
                 errors_x = (predictions - y) * temp
                 
-                theta[j][0] = theta[j][0] - alpha * (1.0 / m) * errors_x.sum()
+                theta[j][0] = theta[j][0] - self.alpha * (1.0 / m) * errors_x.sum()
             
             J_history.append(self.compute_cost(X_int, y, theta))
 
@@ -114,29 +114,3 @@ class LinReg(object):
         prediction = X_int.dot(self.theta).flatten()
         return prediction
 
-
-# initialize linear regression parameters
-iterations = 200000
-alpha = 0.0001
-
-# plot the data with seaborn (add this later)
-
-linearReg = LinReg(alpha = alpha, iterations = iterations)
-
-# load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
-data = np.loadtxt('ex1data2.txt', delimiter = ',')
-X = data[:, :2]
-y = data[:, 2]
-#data, X, y = linearReg.import_data()
-
-# transform data
-X = linearReg.transform(X)
-print X[1,]
-print X.shape[0]
-
-# fit the linear reg
-linearReg.gradient_descent(X = X, y = y)
-
-# make a predictions with X = 3.5
-print linearReg.predict(X[1,:])
-print y[1]
