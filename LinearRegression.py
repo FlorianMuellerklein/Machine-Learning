@@ -78,11 +78,11 @@ class LinReg(object):
         X_int = np.ones(shape = (m,1))
         X_int = np.hstack((X_int, X))
         theta = np.zeros(shape = (X_int.shape[1], 1))
+        theta_size = theta.size
 
         for i in range(self.iterations):
-            predictions = X_int.dot(theta)
-            theta_size = theta.size
-            
+            predictions = np.dot(X_int, theta)
+
             for j in range(theta_size):
                 temp = X_int[:, j]
                 temp.shape = (m, 1)
@@ -91,7 +91,8 @@ class LinReg(object):
             
             J_history.append(self.compute_cost(X_int, y, theta))
 
-            if i % 5000 == 0:
+            if i % 1 == 0:
+                print 'iteration:', i
                 print 'theta:', theta
 
         self.theta = theta
