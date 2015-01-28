@@ -12,7 +12,7 @@ class LinReg(object):
     def __init__(self, alpha, iterations):
         self.alpha = alpha
         self.iterations = iterations
-        self.theta = []
+        self.theta = None
         self.mean = []
         self.std = []
     
@@ -71,31 +71,26 @@ class LinReg(object):
         take steps in direction of steepest decrease of J.
         :return: value of theta that minimizes J(theta) and J_history
         """
-        m = y.size
-        J_history = []
+        num_examples, num_features = np.shape(X)
 
-        # add column of 1s to data to fit intercept
-        X_int = np.ones(shape = (m,1))
-        X_int = np.hstack((X_int, X))
-        theta = np.zeros(shape = (X_int.shape[1], 1))
-        theta_size = theta.size
+        # initialize theta to 1
+        self.theta = np.ones(num_features)
 
         for i in range(self.iterations):
-            predictions = np.dot(X_int, theta)
+            # difference between hypothesis and actual
+            error = np.dot(X, self.theta) - y
+            # sum of squares cost
+            cost = np.sum(error**2) / (2 * num_examples)
+            # calculate average gradient for each row
+            gradient = np.dot(X.transpose(), error) / num_examples
+            # update the coefficients (theta)
+            self.theta = self.theta - self.alpha * gradient
 
-            for j in range(theta_size):
-                temp = X_int[:, j]
-                temp.shape = (m, 1)
-                errors_x = (predictions - y) * temp
-                theta[j][0] = theta[j][0] - self.alpha * (1.0 / m) * errors_x.sum()
-            
-            J_history.append(self.compute_cost(X_int, y, theta))
-            '''
             if i % 5000 == 0:
                 print 'iteration:', i
-                print 'theta:', theta
-            '''
-        self.theta = theta
+                print 'theta:', self.theta
+
+        return self.theta
         #return theta, J_history
 
     def predict(self, X):
@@ -104,7 +99,11 @@ class LinReg(object):
         :param X: new data to make predictions on
         :return: return prediction
         """
+        num_examples = X.size
         X_int = np.hstack((1, X))
-        prediction = np.dot(X_int, self.theta)
+        prediction = 0
+        for value in range(num_examples):
+            prediction = prediction + X_int[value] * self.theta[value]
+
         return prediction
 

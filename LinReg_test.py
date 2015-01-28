@@ -22,6 +22,6 @@ X = linearReg.transform(X)
 linearReg.gradient_descent(X = X, y = y)
 
 # make a predictions with X = 3.5
-print 'prediction:', linearReg.predict(X[10,:])
+print 'prediction:', linearReg.predict(X[10, :])
 print 'real value:', y[10]
 
