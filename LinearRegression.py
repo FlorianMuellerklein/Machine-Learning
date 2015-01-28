@@ -37,9 +37,9 @@ class LinReg(object):
         :param y: second col from data
         :return: transformed data
         """
-		
-		# this does not really make sense if we will have multiple vars
-		# but this is the idea!
+
+        # this does not really make sense if we will have multiple vars
+        # but this is the idea!
         
         # transform
         X_norm = data
@@ -49,7 +49,7 @@ class LinReg(object):
             self.mean.append(mean)
             self.std.append(std)
             X_norm[:,i] = (X_norm[:,i] - mean) / std
-		
+
         return X_norm
     
     def compute_cost(self, X, y, theta):
@@ -74,12 +74,12 @@ class LinReg(object):
         """
         m = y.size
         #J_history = np.zeros(shape=(self.iterations, 1))
-		
+
         # add column of 1s to data to fit intercept
         X_int = np.ones(shape = (m,1))
         X_int = np.hstack((X_int, X))
         theta = np.zeros(shape = (X_int.shape[1], 1))
-		
+
         #i = int(0)
         #tol = 1
         for i in range(self.iterations):
@@ -100,15 +100,15 @@ class LinReg(object):
             #J_history[i, 0] = self.compute_cost(X_int, y, theta)
             
             #if i > 1:
-				#tol = J_history[i-1,0] - J_history[i,0]
+                #tol = J_history[i-1,0] - J_history[i,0]
             if i % 1000 == 0:
-				print 'theta:', theta
-				#print 'cost function:', J_history[i,0]
+                print 'theta:', theta
+            #print 'cost function:', J_history[i,0]
         
 
         self.theta = theta
         #return theta, J_history
-	
+
     def predict(self, X):
         """
         Make linear prediction based on cost and gradient descent
