@@ -17,8 +17,6 @@ y = data[:, 3]
 
 # transform data
 X = linearReg.transform(X)
-print X[1,]
-print X.shape[0]
 
 # fit the linear reg
 linearReg.gradient_descent(X = X, y = y)

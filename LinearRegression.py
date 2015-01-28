@@ -90,11 +90,11 @@ class LinReg(object):
                 theta[j][0] = theta[j][0] - self.alpha * (1.0 / m) * errors_x.sum()
             
             J_history.append(self.compute_cost(X_int, y, theta))
-
+            '''
             if i % 5000 == 0:
                 print 'iteration:', i
                 print 'theta:', theta
-
+            '''
         self.theta = theta
         #return theta, J_history
 
@@ -105,8 +105,6 @@ class LinReg(object):
         :return: return prediction
         """
         X_int = np.hstack((1, X))
-        print 'to be predicted:', X_int
-        print 'with theta:', self.theta
         prediction = np.dot(X_int, self.theta)
         return prediction
 
