@@ -1,5 +1,5 @@
-# everything in this script is stolen from http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html
-# the only difference is that I wanted to make a class instead of seperate functions
+# this script is based on http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html
+# I wanted to make a generalized form that could be used in any linear regression problem
 
 import numpy as np
 
