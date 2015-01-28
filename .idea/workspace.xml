@@ -4,6 +4,7 @@
     <list default="true" id="04f8053a-8004-49a7-a3db-8cf8d96301b7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LinReg_test.py" afterPath="$PROJECT_DIR$/LinReg_test.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LinearRegression.py" afterPath="$PROJECT_DIR$/LinearRegression.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ml.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,8 +31,8 @@
       <file leaf-file-name="LinearRegression.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LinearRegression.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="949" max-vertical-offset="1725">
-              <caret line="101" column="29" selection-start-line="101" selection-start-column="29" selection-end-line="101" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="934" max-vertical-offset="1710">
+              <caret line="104" column="39" selection-start-line="104" selection-start-column="39" selection-end-line="104" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -40,8 +41,8 @@
       <file leaf-file-name="LinReg_test.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LinReg_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.48324743" vertical-offset="0" max-vertical-offset="776">
-              <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.27061856" vertical-offset="0" max-vertical-offset="776">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -64,6 +65,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="18" />
     <option name="y" value="23" />
     <option name="width" value="694" />
     <option name="height" value="873" />
@@ -296,7 +298,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="694" height="873" extended-state="0" />
+    <frame x="18" y="23" width="694" height="873" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -423,16 +425,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LinearRegression.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="949" max-vertical-offset="1725">
-          <caret line="101" column="29" selection-start-line="101" selection-start-column="29" selection-end-line="101" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="934" max-vertical-offset="1710">
+          <caret line="104" column="39" selection-start-line="104" selection-start-column="39" selection-end-line="104" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LinReg_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48324743" vertical-offset="0" max-vertical-offset="776">
-          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.27061856" vertical-offset="0" max-vertical-offset="776">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

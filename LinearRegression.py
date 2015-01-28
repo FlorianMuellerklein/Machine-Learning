@@ -100,10 +100,9 @@ class LinReg(object):
         :return: return prediction
         """
         num_examples = X.size
-        X_int = np.hstack((1, X))
         prediction = 0
         for value in range(num_examples):
-            prediction = prediction + X_int[value] * self.theta[value]
+            prediction = prediction + X[value] * self.theta[value]
 
         return prediction
 
