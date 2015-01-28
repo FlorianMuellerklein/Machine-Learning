@@ -80,21 +80,15 @@ class LinReg(object):
         theta = np.zeros(shape = (X_int.shape[1], 1))
         print X_int
 
-        #i = int(0)
-        #tol = 1
+
         for i in range(self.iterations):
-        #while tol > self.tolerance or i > self.iterations:
             predictions = X_int.dot(theta)
-            
             theta_size = theta.size
             
             for j in range(theta_size):
-                
                 temp = X_int[:, j]
                 temp.shape = (m, 1)
-                
                 errors_x = (predictions - y) * temp
-                
                 theta[j][0] = theta[j][0] - self.alpha * (1.0 / m) * errors_x.sum()
             
             J_history.append(self.compute_cost(X_int, y, theta))
