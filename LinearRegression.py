@@ -61,9 +61,9 @@ class LinReg(object):
         
         predictions = X.dot(theta).flatten()
         
-        sqErrors = (predictions - y) ** 2
+        sqErrors = (predictions - y)
         
-        return (1.0 / (2 * m)) * sqErrors.sum()
+        return (1.0 / (2 * m)) * sqErrors.T.dot(sqErrors)
     
     def gradient_descent(self, X, y):
         """
@@ -78,6 +78,7 @@ class LinReg(object):
         X_int = np.ones(shape = (m,1))
         X_int = np.hstack((X_int, X))
         theta = np.zeros(shape = (X_int.shape[1], 1))
+        print X_int
 
         #i = int(0)
         #tol = 1
