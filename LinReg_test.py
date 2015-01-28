@@ -2,7 +2,7 @@ import numpy as np
 from LinearRegression import LinReg
 
 # initialize linear regression parameters
-iterations = 200000
+iterations = 20000
 alpha = 0.0001
 
 # plot the data with seaborn (add this later)

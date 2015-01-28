@@ -78,8 +78,6 @@ class LinReg(object):
         X_int = np.ones(shape = (m,1))
         X_int = np.hstack((X_int, X))
         theta = np.zeros(shape = (X_int.shape[1], 1))
-        print X_int
-
 
         for i in range(self.iterations):
             predictions = X_int.dot(theta)
