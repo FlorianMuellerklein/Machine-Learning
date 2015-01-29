@@ -16,10 +16,12 @@ class Logit(object):
         self.std = []
 
     def sigmoid(self, x):
-        '''
+        """
+        Typical sigmoid function created from input vector x
+
         :param x: input vector
         :return: sigmoided vector
-        '''
+        """
         # typical sigmoid py line, seems to get errors with arrays
         # return 1 / 1(1 + math.exp(-x))
 
@@ -32,6 +34,7 @@ class Logit(object):
         """
         Search algorithm - loops over theta and updates to
         take steps in direction of steepest decrease of J.
+
         :input x: must be numpy array
         :input y: must be numpy vector of 0 and 1
         :return: value of theta that minimizes J(theta) and J_history
@@ -62,6 +65,7 @@ class Logit(object):
         Calculate mean and standard deviation of data
         Transform data by subtracting by mean and
         dividing by std
+
         :param data: data file
         :return: transformed data
         """
@@ -83,7 +87,9 @@ class Logit(object):
     def predict(self, X, labels):
         """
         Make linear prediction based on cost and gradient descent
+
         :param X: new data to make predictions on
+        :param labels: boolean
         :return: return prediction
         """
         num_examples = X.size
