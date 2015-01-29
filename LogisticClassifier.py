@@ -42,14 +42,13 @@ class Logit(object):
         self.theta = np.ones(num_features)
 
         for i in range(self.iterations):
-            # difference between hypothesis and actual
-            error = self.sigmoid(np.dot(X, self.theta)) - y
+            # make predictions
+            predicted = self.sigmoid(np.dot(X, self.theta))
+            # update theta with gradient descent
+            self.theta = self.theta - self.alpha / num_examples * np.dot((predicted - y), X)
             # sum of squares cost
+            error = predicted - y
             cost = np.sum(error**2) / (2 * num_examples)
-            # calculate average gradient for each row
-            gradient = np.dot(X.transpose(), error) / num_examples
-            # update the coefficients (theta)
-            self.theta = self.theta - self.alpha * gradient
 
             if i % 5000 == 0 and self.verbose == True:
                 print 'iteration:', i
