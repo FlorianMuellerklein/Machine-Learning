@@ -1,27 +1,33 @@
 import numpy as np
-from LinearRegression import LinReg
+from LogisticClassifier import Logit
 
 # initialize linear regression parameters
-iterations = 20000
-alpha = 0.0001
+iterations = 200000
+alpha = 0.001
 
 # plot the data with seaborn (add this later)
 
-linearReg = LinReg(alpha = alpha, iterations = iterations, verbose = True)
+lgit = Logit(alpha = alpha, iterations = iterations, verbose = True)
 
 # load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
-data = np.loadtxt('Data/denver.csv', delimiter = ',')
-X = data[:, 0:]
+data = np.loadtxt('Data/admission.csv', delimiter = ',')
+X = data[:, 1:]
 y = data[:, 0]
-#data, X, y = linearReg.import_data()
 
 # transform data
-X = linearReg.transform(X)
+X = lgit.transform(X)
 
 # fit the linear reg
-linearReg.gradient_descent(X = X, y = y)
+lgit.gradient_descent(X = X, y = y)
 
-# make a predictions with X = 3.5
-print 'prediction:', linearReg.predict(X[20, :])
-print 'real value:', y[20]
+# make a predictions
+prediction = np.zeros(shape = (y.size, 2))
+correct = 0
+for i in range(y.size):
+    prediction[i,0] = lgit.predict(X[i, :], labels = True)
+    prediction[i, 1] = y[i]
+    if prediction[i, 0] == prediction[i, 1]:
+        correct = correct + 1
 
+print 'correct: ', correct
+np.savetxt('logitpreds.csv', prediction, delimiter = ',')

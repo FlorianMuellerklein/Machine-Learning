@@ -6,4 +6,4 @@ popcorn.sentiment.sklearn.py - basic sentiment analysis script that converts lis
 LinearRegression.py - python version of simple linear regression from scratch!
 	ex1data1.txt - example data to run linear regression
 
-This will be great. 
+LogisticRegression.py - gradient descent logistic regression. Currently gets 60% on admission dataset whereas R's default logistic regression gets 70%.

@@ -1,4 +1,4 @@
-
+import math
 import numpy as np
 
 
@@ -20,7 +20,13 @@ class Logit(object):
         :param x: input vector
         :return: sigmoided vector
         '''
-        return 1 / 1(1 + np.exp(-x))
+        # typical sigmoid py line, seems to get errors with arrays
+        # return 1 / 1(1 + math.exp(-x))
+
+        # stolen sigmoid code from other people's solutions
+        den = 1.0 + math.e ** (-1.0 * x)
+        d = 1.0 / den
+        return d
 
     def gradient_descent(self, X, y):
         """
@@ -72,7 +78,7 @@ class Logit(object):
 
         return X_norm
 
-    def predict(self, X, labels = True):
+    def predict(self, X, labels):
         """
         Make linear prediction based on cost and gradient descent
         :param X: new data to make predictions on
@@ -87,8 +93,8 @@ class Logit(object):
 
         if labels:
             if prediction > 0.5:
-                prediction = 1
+                prediction = int(1)
             else:
-                prediction = 0
+                prediction = int(0)
 
         return prediction
