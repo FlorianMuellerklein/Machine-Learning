@@ -2,7 +2,7 @@ import numpy as np
 from LogisticClassifier import Logit
 
 # initialize linear regression parameters
-iterations = 5
+iterations = 50
 alpha = 0.001
 
 # plot the data with seaborn (add this later)
@@ -16,6 +16,7 @@ y = data[:, 0]
 
 # transform data
 X = lgit.transform(X)
+print X[1,:]
 
 # fit the linear reg
 lgit.gradient_descent(X = X, y = y)
@@ -27,6 +28,7 @@ y_test = test[:, 0]
 
 # transform testing data
 X_test = lgit.transform(X_test)
+print X_test[1,:]
 
 # make a predictions
 prediction = np.zeros(shape = (y_test.size, 2))
