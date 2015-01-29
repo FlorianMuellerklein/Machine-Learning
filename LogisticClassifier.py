@@ -23,12 +23,7 @@ class Logit(object):
         :return: sigmoided vector
         """
         # typical sigmoid py line, seems to get errors with arrays
-        # return 1 / 1(1 + math.exp(-x))
-
-        # stolen sigmoid code from other people's solutions
-        den = 1.0 + math.e ** (-1.0 * x)
-        d = 1.0 / den
-        return d
+        return 1 / (1 + np.exp(-x))
 
     def gradient_descent(self, X, y):
         """
