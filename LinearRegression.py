@@ -19,6 +19,7 @@ class LinReg(object):
     def import_data(self):
         """
         Import data file
+        currently not useable since it's not generalized
         :return: data, X, and y for data transform
         """
         data = np.loadtxt('ex1data1.txt', delimiter = ',')
@@ -32,13 +33,8 @@ class LinReg(object):
         Transform data by subtracting by mean and
         dividing by std
         :param data: data file
-        :param X: first col from data
-        :param y: second col from data
         :return: transformed data
         """
-
-        # this does not really make sense if we will have multiple vars
-        # but this is the idea!
         
         # transform
         X_norm = data
@@ -50,20 +46,6 @@ class LinReg(object):
             X_norm[:,i] = (X_norm[:,i] - mean) / std
 
         return X_norm
-    
-    def compute_cost(self, X, y, theta):
-        """
-        Calculate mean squared error by subtracting true from predicted
-        and dividing by 2
-        :return: mean squared error
-        """
-        m = y.size
-        
-        predictions = X.dot(theta).flatten()
-        
-        sqErrors = (predictions - y)
-        
-        return (1.0 / (2 * m)) * sqErrors.T.dot(sqErrors)
     
     def gradient_descent(self, X, y):
         """
