@@ -89,6 +89,7 @@ class LinReg(object):
             if i % 5000 == 0 and self.verbose == True:
                 print 'iteration:', i
                 print 'theta:', self.theta
+                print 'cost:', cost
 
         return self.theta
         #return theta, J_history
