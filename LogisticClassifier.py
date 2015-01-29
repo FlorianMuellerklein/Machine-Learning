@@ -72,7 +72,7 @@ class Logit(object):
 
         return X_norm
 
-    def predict(self, X):
+    def predict(self, X, labels = True):
         """
         Make linear prediction based on cost and gradient descent
         :param X: new data to make predictions on
@@ -83,4 +83,12 @@ class Logit(object):
         for value in range(num_examples):
             prediction = prediction + X[value] * self.theta[value]
 
-        return self.sigmoid(prediction)
+        prediction = self.sigmoid(prediction)
+
+        if labels:
+            if prediction > 0.5:
+                prediction = 1
+            else:
+                prediction = 0
+
+        return prediction
