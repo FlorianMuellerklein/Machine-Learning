@@ -5,13 +5,13 @@ import numpy as np
 
 class LinReg(object):
     """
-    Classic linear regression
-    First try at simple linear regression class in python
-    takes two arguments: alpha (learning rate), number of iterations for SGD
+    multivariate linear regression using gradient descent!!
+    takes two arguments: alpha (learning rate), number of iterations for SGD, and verbose if you want to see output
     """
-    def __init__(self, alpha, iterations):
+    def __init__(self, alpha, iterations, verbose):
         self.alpha = alpha
         self.iterations = iterations
+        self.verbose = verbose
         self.theta = None
         self.mean = []
         self.std = []
@@ -86,7 +86,7 @@ class LinReg(object):
             # update the coefficients (theta)
             self.theta = self.theta - self.alpha * gradient
 
-            if i % 5000 == 0:
+            if i % 5000 == 0 and self.verbose == True:
                 print 'iteration:', i
                 print 'theta:', self.theta
 

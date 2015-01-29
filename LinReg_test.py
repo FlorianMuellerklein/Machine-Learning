@@ -7,7 +7,7 @@ alpha = 0.0001
 
 # plot the data with seaborn (add this later)
 
-linearReg = LinReg(alpha = alpha, iterations = iterations)
+linearReg = LinReg(alpha = alpha, iterations = iterations, verbose = True)
 
 # load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
 data = np.loadtxt('Data/denver.csv', delimiter = ',')
@@ -22,6 +22,6 @@ X = linearReg.transform(X)
 linearReg.gradient_descent(X = X, y = y)
 
 # make a predictions with X = 3.5
-print 'prediction:', linearReg.predict(X[5, :])
-print 'real value:', y[5]
+print 'prediction:', linearReg.predict(X[20, :])
+print 'real value:', y[20]
 
