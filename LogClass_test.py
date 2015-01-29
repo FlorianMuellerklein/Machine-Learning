@@ -1,11 +1,9 @@
 import numpy as np
-from LinearRegression import LinReg
+from LogisticClassifier import Logit
 
 ##########################################################
-########### Test file for Linear Regression ##############
+########## Test file for Logistic Classifier #############
 ##########################################################
-
-# CHANGE TO TEST FILE FOR LINEAR REGRESSION
 
 # initialize linear regression parameters
 iterations = 50
