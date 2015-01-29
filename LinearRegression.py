@@ -6,7 +6,7 @@ import numpy as np
 class LinReg(object):
     """
     multivariate linear regression using gradient descent!!
-    takes two arguments: alpha (learning rate), number of iterations for SGD, and verbose if you want to see output
+    takes three arguments: alpha (learning rate), number of iterations for SGD, and verbose if you want to see output
     """
     def __init__(self, alpha, iterations, verbose):
         self.alpha = alpha
@@ -15,6 +15,34 @@ class LinReg(object):
         self.theta = None
         self.mean = []
         self.std = []
+
+    def gradient_descent(self, X, y):
+        """
+        Search algorithm - loops over theta and updates to
+        take steps in direction of steepest decrease of J.
+        :return: value of theta that minimizes J(theta) and J_history
+        """
+        num_examples, num_features = np.shape(X)
+
+        # initialize theta to 1
+        self.theta = np.ones(num_features)
+
+        for i in range(self.iterations):
+            # difference between hypothesis and actual
+            error = np.dot(X, self.theta) - y
+            # sum of squares cost
+            cost = np.sum(error**2) / (2 * num_examples)
+            # calculate average gradient for each row
+            gradient = np.dot(X.transpose(), error) / num_examples
+            # update the coefficients (theta)
+            self.theta = self.theta - self.alpha * gradient
+
+            if i % 5000 == 0 and self.verbose == True:
+                print 'iteration:', i
+                print 'theta:', self.theta
+                print 'cost:', cost
+
+        return self.theta
     
     def import_data(self):
         """
@@ -46,35 +74,7 @@ class LinReg(object):
             X_norm[:,i] = (X_norm[:,i] - mean) / std
 
         return X_norm
-    
-    def gradient_descent(self, X, y):
-        """
-        Search algorithm - loops over theta and updates to
-        take steps in direction of steepest decrease of J.
-        :return: value of theta that minimizes J(theta) and J_history
-        """
-        num_examples, num_features = np.shape(X)
 
-        # initialize theta to 1
-        self.theta = np.ones(num_features)
-
-        for i in range(self.iterations):
-            # difference between hypothesis and actual
-            error = np.dot(X, self.theta) - y
-            # sum of squares cost
-            cost = np.sum(error**2) / (2 * num_examples)
-            # calculate average gradient for each row
-            gradient = np.dot(X.transpose(), error) / num_examples
-            # update the coefficients (theta)
-            self.theta = self.theta - self.alpha * gradient
-
-            if i % 5000 == 0 and self.verbose == True:
-                print 'iteration:', i
-                print 'theta:', self.theta
-                print 'cost:', cost
-
-        return self.theta
-        #return theta, J_history
 
     def predict(self, X):
         """
