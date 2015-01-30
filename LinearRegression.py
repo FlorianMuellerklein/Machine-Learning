@@ -73,6 +73,9 @@ class LinReg(object):
             self.std.append(std)
             X_norm[:,i] = (X_norm[:,i] - mean) / std
 
+        X_int = np.ones(shape =(X_norm.shape[0],1))
+        X_norm = np.hstack((X_int, X_norm))
+
         return X_norm
 
 
