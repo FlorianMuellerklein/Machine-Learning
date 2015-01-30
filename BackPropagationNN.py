@@ -1,6 +1,5 @@
 import math
 import random
-import string
 import numpy as np
 
 random.seed(0)
@@ -89,7 +88,7 @@ class BackPropNN(object):
         for j in range(self.output):
             error = 0.0
             for k in range(self.output):
-                error = error + output_deltas[k] * self.wo[j][k]
+                error += output_deltas[k] * self.wo[j][k]
             hidden_deltas[k] = dsigmoid(self.ah[j]) * error
 
         # update output weights
