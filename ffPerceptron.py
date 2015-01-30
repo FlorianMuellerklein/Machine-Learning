@@ -41,7 +41,6 @@ class Perceptron(object):
         :param y: correct y value
         :return: updated parameters
         '''
-
         # initialize weight vector
         self.w = np.randint(-1,1, shape =(X.shape[1], 1))
 
