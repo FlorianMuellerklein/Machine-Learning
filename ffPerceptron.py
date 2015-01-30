@@ -1,3 +1,4 @@
+import random
 import numpy as np
 
 class Perceptron(object):
@@ -5,9 +6,9 @@ class Perceptron(object):
     simple feed forward perceptron
     no bias yet, will add later
     '''
-    def __init__(self, alpha, iteration)
+    def __init__(self, alpha, iterations):
         self.alpha = alpha
-        self.iteration = iteration
+        self.iterations = iterations
         # initialize weights
         self.w = None
 
@@ -22,7 +23,7 @@ class Perceptron(object):
         if y >= 0:
             return 1
         else:
-            return -1
+            return 0
 
     def updateWeight(self, X, error):
         '''
@@ -31,8 +32,7 @@ class Perceptron(object):
         :param error: prediction != true
         :return: updated weight vector
         '''
-        for i in range(self.w.size):
-            self.w = self.alpha * error * X[i]
+        self.w = self.w + self.alpha * np.dot(error, X)
 
     def train(self, X, y):
         '''
@@ -41,11 +41,13 @@ class Perceptron(object):
         :param y: correct y value
         :return: updated parameters
         '''
+        num_examples, num_features = np.shape(X)
         # initialize weight vector
-        self.w = np.randint(-1,1, shape =(X.shape[1], 1))
+        self.w = np.random.rand(num_features)
 
-        for i in nrange(self.iteration):
-            prediction = self.response(X[i,:])
-            if prediction != y[i]:
-                error = y - prediction
-                self.updateWeight(X, error)
+        for i in range(self.iterations):
+            for j in range(X.shape[0]):
+                prediction = self.response(X[j])
+                if prediction != y[j]:
+                    error = y[j] - prediction
+                    self.updateWeight(X[j], error)
