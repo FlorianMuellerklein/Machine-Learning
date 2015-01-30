@@ -18,6 +18,13 @@ data = np.loadtxt('Data/heart.txt', delimiter = ',')
 X = data[:, 1:]
 y = data[:, 0]
 
+##########################################################
+################### DEBUG BABY! ##########################
+
+import pdb
+pdb.set_trace()
+# creates breakpoint for manually interaction dawg
+
 # transform data
 X = lgit.transform(X)
 print X[1,:]
