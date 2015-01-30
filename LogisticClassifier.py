@@ -7,9 +7,10 @@ class Logit(object):
     logistic regression using gradient descent!!
     takes three arguments: alpha (learning rate), number of iterations for SGD, and verbose if you want to see output
     """
-    def __init__(self, alpha, iterations, verbose):
+    def __init__(self, alpha, iterations, verbose, tolerance):
         self.alpha = alpha
         self.iterations = iterations
+        self.tolerance = tolerance
         self.verbose = verbose
         self.theta = None
         self.mean = []
@@ -52,6 +53,10 @@ class Logit(object):
                 print 'iteration:', i
                 print 'theta:', self.theta
                 print 'cost:', cost
+
+            if cost < self.tolerance:
+                return self.theta
+                break
 
         return self.theta
 

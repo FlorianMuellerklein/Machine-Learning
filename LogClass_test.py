@@ -6,12 +6,12 @@ from LogisticClassifier import Logit
 ##########################################################
 
 # initialize linear regression parameters
-iterations = 50
-alpha = 0.001
+iterations = 100000
+alpha = 0.01
 
 # plot the data with seaborn (add this later)
 
-lgit = Logit(alpha = alpha, iterations = iterations, verbose = False)
+lgit = Logit(alpha = alpha, iterations = iterations, verbose = True, tolerance = 0.03)
 
 # load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
 data = np.loadtxt('Data/heart.txt', delimiter = ',')
@@ -21,13 +21,13 @@ y = data[:, 0]
 ##########################################################
 ################### DEBUG BABY! ##########################
 
-import pdb
-pdb.set_trace()
+#import pdb
+#pdb.set_trace()
 # creates breakpoint for manually interaction dawg
 
 # transform data
-X = lgit.transform(X)
-print X[1,:]
+#X = lgit.transform(X)
+#print X[1,:]
 
 # fit the linear reg
 lgit.gradient_descent(X = X, y = y)
@@ -38,8 +38,8 @@ X_test = test[:, 1:]
 y_test = test[:, 0]
 
 # transform testing data
-X_test = lgit.transform(X_test)
-print X_test[1,:]
+#X_test = lgit.transform(X_test)
+#print X_test[1,:]
 
 # make a predictions
 prediction = np.zeros(shape = (y_test.size, 2))
