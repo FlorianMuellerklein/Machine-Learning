@@ -31,7 +31,6 @@ class Perceptron(object):
         :param error: prediction != true
         :return: updated weight vector
         '''
-
         for i in range(self.w.size):
             self.w = self.alpha * error * X[i]
 
