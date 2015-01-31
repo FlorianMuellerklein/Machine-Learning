@@ -141,7 +141,7 @@ def demo():
     ]
 
     # create a network with two input, two hidden, and one output
-    n = BackPropNN(2, 2, 1)
+    n = BackPropNN(2, 10, 1)
     # train
     n.train(pat)
     #test
