@@ -14,12 +14,12 @@ def dsigmoid(y):
 
 class BackPropNN(object):
     def __init__(self, input, hidden, output):
-        '''
+        """
         back propagation neural network, sets up all of the matricies we'll need
         :param input: number of input neurons
         :param hidden: number of hidden neurons
         :param output: number of output neurons
-        '''
+        """
         self.input = input + 1 # add 1 for bias node
         self.hidden = hidden
         self.output = output
@@ -38,12 +38,12 @@ class BackPropNN(object):
         self.co = np.zeros((self.hidden, self.output))
 
     def update(self, inputs):
-        '''
+        """
         update the activation nodes of the output vector
         each individual calculation is the sum of the input for each layer multiplied by the weights
         :param inputs: input data
         :return: updated activation output vector
-        '''
+        """
         if len(inputs) != self.input-1:
             raise ValueError('Wrong number of inputs you silly goose!')
 
@@ -68,7 +68,7 @@ class BackPropNN(object):
         return self.ao[:]
 
     def backPropagate(self, targets, N, M):
-        '''
+        """
         Very similar to gradient descent.
         make predictions and calculate the error
         then go through and update the weights for each section of the network based on the error and alpha
@@ -76,7 +76,7 @@ class BackPropNN(object):
         :param N: learning rate
         :param M: momentum
         :return:
-        '''
+        """
         if len(targets) != self.output:
             raise ValueError('Wrong number of targets you silly goose!')
 
@@ -120,7 +120,7 @@ class BackPropNN(object):
         for p in patterns:
             print(p[0], '->', self.update(p[0]))
 
-    def train(self, patterns, iterations = 10000, N = 0.01, M = 0.1):
+    def train(self, patterns, iterations = 200000, N = 0.01, M = 0.1):
         # N: learning rate
         # M: momentum factor
         for i in range(iterations):
@@ -130,7 +130,7 @@ class BackPropNN(object):
                 targets = p[1]
                 self.update(inputs)
                 error = error + self.backPropagate(targets, N, M)
-            if i % 500 == 0:
+            if i % 5000 == 0:
                 print('error %-.5f' % error)
 
 def demo():
