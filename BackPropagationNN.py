@@ -81,12 +81,14 @@ class BackPropNN(object):
             raise ValueError('Wrong number of targets you silly goose!')
 
         # calculate error terms for output
+        # the delta tell you which direction to change the weights
         output_deltas = [0.0] * self.output
         for k in range(self.output):
             error = targets[k] - self.ao[k]
             output_deltas[k] = dsigmoid(self.ao[k]) * error
 
         # calculate error terms for hidden
+        # delta tells you which direction to change the weights
         hidden_deltas = [0.0] * self.hidden
         for j in range(self.output):
             error = 0.0
