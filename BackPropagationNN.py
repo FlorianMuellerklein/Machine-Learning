@@ -4,6 +4,7 @@ import numpy as np
 
 random.seed(0)
 
+# sigmoid transfer function
 def sigmoid(x):
     return math.tanh(x)
 
@@ -29,8 +30,8 @@ class BackPropNN(object):
         self.ao = [1.0] * self.output
 
         # create randomized weights
-        self.wi = np.random.rand(self.input, self.hidden)
-        self.wo = np.random.rand(self.hidden, self.output)
+        self.wi = np.random.rand(self.input, self.hidden) # weight vector going from input to hidden
+        self.wo = np.random.rand(self.hidden, self.output) # weight vector going from hidden to output
 
         # create arrays of 0 for momentum
         self.ci = np.zeros((self.input, self.hidden))
@@ -39,7 +40,7 @@ class BackPropNN(object):
     def update(self, inputs):
         '''
         update the activation nodes of the output vector
-        each individual calculation is the sum of the ainput for each layer multiplied by the weights
+        each individual calculation is the sum of the input for each layer multiplied by the weights
         :param inputs: input data
         :return: updated activation output vector
         '''
@@ -68,7 +69,9 @@ class BackPropNN(object):
 
     def backPropagate(self, targets, N, M):
         '''
-
+        Very similar to gradient descent.
+        make predictions and calculate the error
+        then go through and update the weights for each section of the network based on the error and alpha
         :param targets: y values
         :param N:
         :param M:
@@ -91,14 +94,14 @@ class BackPropNN(object):
                 error += output_deltas[k] * self.wo[j][k]
             hidden_deltas[k] = dsigmoid(self.ah[j]) * error
 
-        # update output weights
+        # update the weights connecting hidden to output
         for j in range(self.hidden):
             for k in range(self.output):
                 change = output_deltas[k] * self.ah[j]
                 self.wo[j][k] = self.wo[j][k] + N * change + M * self.co[j][k]
                 self.co[j][k] = change
 
-        # update input weights
+        # update the weights connecting input to hidden
         for i in range(self.input):
             for j in range(self.hidden):
                 change = hidden_deltas[j] * self.ai[i]
