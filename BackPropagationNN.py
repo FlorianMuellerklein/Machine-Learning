@@ -73,8 +73,8 @@ class BackPropNN(object):
         make predictions and calculate the error
         then go through and update the weights for each section of the network based on the error and alpha
         :param targets: y values
-        :param N:
-        :param M:
+        :param N: learning rate
+        :param M: momentum
         :return:
         '''
         if len(targets) != self.output:
@@ -130,7 +130,7 @@ class BackPropNN(object):
                 targets = p[1]
                 self.update(inputs)
                 error = error + self.backPropagate(targets, N, M)
-            if i % 100 == 0:
+            if i % 500 == 0:
                 print('error %-.5f' % error)
 
 def demo():
