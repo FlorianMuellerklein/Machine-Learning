@@ -13,7 +13,7 @@ def dsigmoid(y):
     return 1.0 - y ** 2
 
 class BackPropNN(object):
-    def __init__(self, input, hidden, output):
+    def __init__(self, input, hidden, output, test=False):
         """
         back propagation neural network, sets up all of the matricies we'll need
         :param input: number of input neurons
@@ -23,6 +23,8 @@ class BackPropNN(object):
         self.input = input + 1 # add 1 for bias node
         self.hidden = hidden
         self.output = output
+
+        self.test = test
 
         # set activation for nodes
         self.ai = [1.0] * self.input
@@ -150,4 +152,5 @@ def demo():
     n.test(pat)
 
 if __name__ == '__main__':
-    demo()
+	if self.test:
+		demo()
