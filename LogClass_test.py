@@ -11,7 +11,7 @@ alpha = 0.01
 
 # plot the data with seaborn (add this later)
 
-lgit = Logit(alpha = alpha, iterations = iterations, verbose = True, tolerance = 0.03)
+lgit = Logit(alpha = alpha, iterations = iterations, verbose = True, tolerance = 0.02)
 
 # load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
 data = np.loadtxt('Data/heart.txt', delimiter = ',')
