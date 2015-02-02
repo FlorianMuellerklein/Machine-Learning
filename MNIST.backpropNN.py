@@ -4,15 +4,16 @@ import numpy as np
 from BackPropagationNN import BackPropNN
 
 def load_data():
-    data = np.loadtxt('Data/train_binary.csv', delimiter = ',')
-    y = data[:,0]
-    y[y == 0] = -1
-    data = data[:,1:]   # x data
+    data = np.loadtxt('Data/sklearn_digits.csv', delimiter = ',')
+    y = data[:,0:9]
+    print y.shape
+    data = data[:,10:]   # x data
     data[data > 0] = 1 # scale features to be on or off
     out = []
+    print data.shape
     
     for i in range(data.shape[0]):
-        fart = list((data[i,:].tolist(), [y[i].tolist()]))
+        fart = list((data[i,:].tolist(), y[i].tolist()))
         out.append(fart)
 
         #time.sleep(20)
@@ -24,6 +25,6 @@ if __name__ == '__main__':
     
     print X[1]
 
-    NN = BackPropNN(784, 5, 1)
+    NN = BackPropNN(64, 20, 9)
 
     NN.train(X)

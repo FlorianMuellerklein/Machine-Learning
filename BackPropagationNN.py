@@ -67,7 +67,7 @@ class BackPropNN(object):
 
         return self.ao[:]
 
-    def backPropagate(self, targets, N, M):
+    def backPropagate(self, targets, N):
         """
         Very similar to gradient descent.
         make predictions and calculate the error
@@ -100,37 +100,36 @@ class BackPropNN(object):
         for j in range(self.hidden):
             for k in range(self.output):
                 change = output_deltas[k] * self.ah[j]
-                self.wo[j][k] = self.wo[j][k] + N * change + M * self.co[j][k]
+                self.wo[j][k] += N * change * self.co[j][k]
                 self.co[j][k] = change
 
         # update the weights connecting input to hidden
         for i in range(self.input):
             for j in range(self.hidden):
                 change = hidden_deltas[j] * self.ai[i]
-                self.wi[i][j] = self.wi[i][j] + N * change + M * self.ci[i][j]
+                self.wi[i][j] += N * change * self.ci[i][j]
                 self.ci[i][j] = change
 
         # calculate error
         error = 0.0
         for k in range(len(targets)):
-            error = error + 0.5 * (targets[k] - self.ao[k]) ** 2
+            error += 0.5 * (targets[k] - self.ao[k]) ** 2
         return error
 
     def test(self, patterns):
         for p in patterns:
             print(p[0], '->', self.update(p[0]))
 
-    def train(self, patterns, iterations = 2000, N = 0.01, M = 0.1):
+    def train(self, patterns, iterations = 20000, N = 0.2):
         # N: learning rate
-        # M: momentum factor
         for i in range(iterations):
             error = 0.0
             for p in patterns:
                 inputs = p[0]
                 targets = p[1]
                 self.update(inputs)
-                error = error + self.backPropagate(targets, N, M)
-            if i % 500 == 0:
+                error = error + self.backPropagate(targets, N)
+            if i % 10 == 0:
                 print('error %-.5f' % error)
 
 def demo():
