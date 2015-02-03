@@ -3,6 +3,8 @@ import numpy as np
 np.seterr(all = 'ignore')
 
 # sigmoid transfer function
+# IMPORTANT: when using the logit (sigmoid) transfer function make sure y values are scaled from 0 to 1
+# if you use the tanh then you should scale between -1 and 1
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
@@ -10,18 +12,18 @@ def sigmoid(x):
 def dsigmoid(x):
     return sigmoid(x) * (1.0 - sigmoid(x))
 
-class mlp_neuralnetwork(object):
+class MLP_NeuralNetwork(object):
     """
     Basic MultiLayer Perceptron (MLP) network, adapted and from the book 'Programming Collective Intelligence' (http://shop.oreilly.com/product/9780596529321.do)
     Consists of three layers: input, hidden and output. The sizes of input and output must match data
     the size of hidden is user defined when initializing the network.
     The algorithm has been generalized to be used on any dataset.
-    As long as the data is in this format: [[[x1, x2, x3 ... xn], [y1, y2 ..., yn]],
-                                           [[[x1, x2, x3 ... xn], [y1, y2 ..., yn]],
+    As long as the data is in this format: [[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]],
+                                           [[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]],
                                            ...
-                                           [[[x1, x2, x3 ... xn], [y1, y2 ..., yn]]]
+                                           [[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]]]
     An example is provided below with the digit recognition dataset provided by sklearn
-    script is fully pypy compatible.
+    Fully pypy compatible.
     """
     def __init__(self, input, hidden, output):
         """
@@ -33,7 +35,7 @@ class mlp_neuralnetwork(object):
         self.hidden = hidden
         self.output = output
 
-        # set activation for nodes
+        # set up array of 1s for activations
         self.ai = [1.0] * self.input
         self.ah = [1.0] * self.hidden
         self.ao = [1.0] * self.output
@@ -42,11 +44,11 @@ class mlp_neuralnetwork(object):
         self.wi = np.random.randn(self.input, self.hidden) # weight vector going from input to hidden
         self.wo = np.random.randn(self.hidden, self.output)  # weight vector going from hidden to output
 
-        # create arrays of 0 for momentum
+        # create arrays of 0 for changes
         self.ci = np.zeros((self.input, self.hidden))
         self.co = np.zeros((self.hidden, self.output))
 
-    def feedforward(self, inputs):
+    def feedForward(self, inputs):
         """
         The feedforward algorithm loops over all the nodes in the hidden layer and
         adds together all the outputs from the input layer * their weights
@@ -80,18 +82,18 @@ class mlp_neuralnetwork(object):
 
     def backPropagate(self, targets, N):
         """
-        for the output layer
+        For the output layer
         1. Calculates the difference between output value and target value
         2. Get the derivative (slope) of the sigmoid function in order to determine how much the weights need to change
         3. update the weights for every node based on the learning rate and sig derivative
-        for the hidden layer
+
+        For the hidden layer
         1. calculate the sum of the strength of each output link multiplied by how much the target node has to change
         2. get derivative to determine how much weights need to change
         3. change the weights based on learning rate and derivative
         :param targets: y values
         :param N: learning rate
-        :param M: momentum
-        :return:
+        :return: updated weights
         """
         if len(targets) != self.output:
             raise ValueError('Wrong number of targets you silly goose!')
@@ -133,6 +135,10 @@ class mlp_neuralnetwork(object):
         return error
 
     def test(self, patterns):
+        """
+        Currently this will print out the targets next to the predictions.
+        Not useful for actual ML, until the arrays are saved.
+        """
         for p in patterns:
             print(p[1], '->', self.update(p[0]))
 
@@ -143,7 +149,7 @@ class mlp_neuralnetwork(object):
             for p in patterns:
                 inputs = p[0]
                 targets = p[1]
-                self.feedforward(inputs)
+                self.feedForward(inputs)
                 error = self.backPropagate(targets, N)
             if i % 100 == 0:
                 print('error %-.5f' % error)
@@ -151,30 +157,31 @@ class mlp_neuralnetwork(object):
 def demo():
     """
     run NN demo on the digit recognition dataset from sklearn
-    :return:
     """
     def load_data():
         data = np.loadtxt('Data/sklearn_digits.csv', delimiter = ',')
+
+        # first ten values are the one hot encoded y (target) values
         y = data[:,0:10]
-        #y[y == 0] = -1
-        data = data[:,10:]   # x data
+        #y[y == 0] = -1 # if you are using a tanh transfer function make the 0 into -1
+
+        data = data[:,10:] # x data
         data -= data.min() # scale the data so values are between 0 and 1
-        data /= data.max()
-        #data[data == 0] = -1 # scale features to be on or off
+        data /= data.max() # scale
+
         out = []
         print data.shape
 
+        # populate the tuple list with the data
         for i in range(data.shape[0]):
-            fart = list((data[i,:].tolist(), y[i].tolist()))
+            fart = list((data[i,:].tolist(), y[i].tolist())) # don't mind this variable name
             out.append(fart)
-
-            #time.sleep(20)
 
         return out
 
     X = load_data()
 
-    print X[9]
+    print X[9] # make sure the data looks right
 
     NN = mlp_neuralnetwork(64, 20, 10)
 
