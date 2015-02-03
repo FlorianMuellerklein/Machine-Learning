@@ -183,7 +183,7 @@ def demo():
 
     print X[9] # make sure the data looks right
 
-    NN = mlp_neuralnetwork(64, 20, 10)
+    NN = MLP_NeuralNetwork(64, 20, 10)
 
     NN.train(X)
 
