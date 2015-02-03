@@ -25,7 +25,7 @@ def load_data():
 if __name__ == '__main__':
     X = load_data()
     
-    print X[1]
+    print X[9]
 
     NN = BackPropNN(64, 100, 10)
 
