@@ -11,9 +11,20 @@ def dsigmoid(x):
     return sigmoid(x) * (1.0 - sigmoid(x))
 
 class BackPropNN(object):
+    """
+    Basic MultiLayer Perceptron (MLP) network, adapted and from the book 'Programming Collective Intelligence' (http://shop.oreilly.com/product/9780596529321.do)
+    Consists of three layers: input, hidden and output. The sizes of input and output must match data
+    the size of hidden is user defined when initializing the network.
+    The algorithm has been generalized to be used on any dataset.
+    As long as the data is in this format: [[[x1, x2, x3 ... xn], [y1, y2 ..., yn]],
+                                           [[[x1, x2, x3 ... xn], [y1, y2 ..., yn]],
+                                           ...
+                                           [[[x1, x2, x3 ... xn], [y1, y2 ..., yn]]]
+    An example is provided below with the digit recognition dataset provided by sklearn
+    script is fully pypy compatible.
+    """
     def __init__(self, input, hidden, output):
         """
-        back propagation neural network, sets up all of the matricies we'll need
         :param input: number of input neurons
         :param hidden: number of hidden neurons
         :param output: number of output neurons
