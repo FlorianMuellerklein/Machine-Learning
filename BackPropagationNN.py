@@ -2,8 +2,6 @@ import math
 import random
 import numpy as np
 
-random.seed(0)
-
 # sigmoid transfer function
 def sigmoid(x):
     return math.tanh(x)
@@ -30,8 +28,8 @@ class BackPropNN(object):
         self.ao = [1.0] * self.output
 
         # create randomized weights
-        self.wi = np.random.rand(self.input, self.hidden) # weight vector going from input to hidden
-        self.wo = np.random.rand(self.hidden, self.output) # weight vector going from hidden to output
+        self.wi = np.random.randn(self.input, self.hidden) # weight vector going from input to hidden
+        self.wo = np.random.randn(self.hidden, self.output) + 2 # weight vector going from hidden to output
 
         # create arrays of 0 for momentum
         self.ci = np.zeros((self.input, self.hidden))
@@ -118,9 +116,9 @@ class BackPropNN(object):
 
     def test(self, patterns):
         for p in patterns:
-            print(p[0], '->', self.update(p[0]))
+            print(p[1], '->', self.update(p[0]))
 
-    def train(self, patterns, iterations = 20000, N = 0.2):
+    def train(self, patterns, iterations = 30000, N = 0.2):
         # N: learning rate
         for i in range(iterations):
             error = 0.0
@@ -128,9 +126,10 @@ class BackPropNN(object):
                 inputs = p[0]
                 targets = p[1]
                 self.update(inputs)
-                error = error + self.backPropagate(targets, N)
-            if i % 10 == 0:
+                error = self.backPropagate(targets, N)
+            if i % 1000 == 0:
                 print('error %-.5f' % error)
+                print('hidden weight:', self.wi[0][0])
 
 def demo():
     # teach network XOR
@@ -149,4 +148,4 @@ def demo():
     n.test(pat)
 
 if __name__ == '__main__':
-		demo()
+	demo()

@@ -5,10 +5,12 @@ from BackPropagationNN import BackPropNN
 
 def load_data():
     data = np.loadtxt('Data/sklearn_digits.csv', delimiter = ',')
-    y = data[:,0:9]
-    print y.shape
+    y = data[:,0:10]
+    #y[y == 0] = -1
     data = data[:,10:]   # x data
-    data[data > 0] = 1 # scale features to be on or off
+    data -= data.min() # scale the data so values are between 0 and 1
+    data /= data.max()
+    #data[data == 0] = -1 # scale features to be on or off
     out = []
     print data.shape
     
@@ -25,6 +27,8 @@ if __name__ == '__main__':
     
     print X[1]
 
-    NN = BackPropNN(64, 20, 9)
+    NN = BackPropNN(64, 100, 10)
 
     NN.train(X)
+    
+    NN.test(X)
