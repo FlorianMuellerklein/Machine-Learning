@@ -1,14 +1,14 @@
-import math
-import random
+
 import numpy as np
+np.seterr(all = 'ignore')
 
 # sigmoid transfer function
 def sigmoid(x):
-    return math.tanh(x)
+    return 1 / (1 + np.exp(-x))
 
 # derivative of sigmoid
-def dsigmoid(y):
-    return 1.0 - y ** 2
+def dsigmoid(x):
+    return sigmoid(x) * (1.0 - sigmoid(x))
 
 class BackPropNN(object):
     def __init__(self, input, hidden, output):
@@ -35,10 +35,12 @@ class BackPropNN(object):
         self.ci = np.zeros((self.input, self.hidden))
         self.co = np.zeros((self.hidden, self.output))
 
-    def update(self, inputs):
+    def feedforward(self, inputs):
         """
-        update the activation nodes of the output vector
-        each individual calculation is the sum of the input for each layer multiplied by the weights
+        The feedforward algorithm loops over all the nodes in the hidden layer and
+        adds together all the outputs from the input layer * their weights
+        the output of each node is the sigmoid function of the sum of all inputs
+        which is then passed on to the next layer.
         :param inputs: input data
         :return: updated activation output vector
         """
@@ -53,23 +55,28 @@ class BackPropNN(object):
         for j in range(self.hidden):
             sum = 0.0
             for i in range(self.input):
-                sum = sum + self.ai[i] * self.wi[i][j]
+                sum += self.ai[i] * self.wi[i][j]
             self.ah[j] = sigmoid(sum)
 
         # output activations
         for k in range(self.output):
             sum = 0.0
             for j in range(self.hidden):
-                sum = sum + self.ah[j] * self.wo[j][k]
+                sum += self.ah[j] * self.wo[j][k]
             self.ao[k] = sigmoid(sum)
 
         return self.ao[:]
 
     def backPropagate(self, targets, N):
         """
-        Very similar to gradient descent.
-        make predictions and calculate the error
-        then go through and update the weights for each section of the network based on the error and alpha
+        for the output layer
+        1. Calculates the difference between output value and target value
+        2. Get the derivative (slope) of the sigmoid function in order to determine how much the weights need to change
+        3. update the weights for every node based on the learning rate and sig derivative
+        for the hidden layer
+        1. calculate the sum of the strength of each output link multiplied by how much the target node has to change
+        2. get derivative to determine how much weights need to change
+        3. change the weights based on learning rate and derivative
         :param targets: y values
         :param N: learning rate
         :param M: momentum
@@ -98,14 +105,14 @@ class BackPropNN(object):
         for j in range(self.hidden):
             for k in range(self.output):
                 change = output_deltas[k] * self.ah[j]
-                self.wo[j][k] += N * change * self.co[j][k]
+                self.wo[j][k] += N * change + self.co[j][k]
                 self.co[j][k] = change
 
         # update the weights connecting input to hidden
         for i in range(self.input):
             for j in range(self.hidden):
                 change = hidden_deltas[j] * self.ai[i]
-                self.wi[i][j] += N * change * self.ci[i][j]
+                self.wi[i][j] += N * change + self.ci[i][j]
                 self.ci[i][j] = change
 
         # calculate error
@@ -125,26 +132,44 @@ class BackPropNN(object):
             for p in patterns:
                 inputs = p[0]
                 targets = p[1]
-                self.update(inputs)
+                self.feedforward(inputs)
                 error = self.backPropagate(targets, N)
             if i % 100 == 0:
                 print('error %-.5f' % error)
 
 def demo():
-    # teach network XOR
-    pat = [
-        [[0,0], [0]],
-        [[0,1], [1]],
-        [[1,0], [1]],
-        [[1,1], [0]]
-    ]
+    """
+    run NN demo on the digit recognition dataset from sklearn
+    :return:
+    """
+    def load_data():
+        data = np.loadtxt('Data/sklearn_digits.csv', delimiter = ',')
+        y = data[:,0:10]
+        #y[y == 0] = -1
+        data = data[:,10:]   # x data
+        data -= data.min() # scale the data so values are between 0 and 1
+        data /= data.max()
+        #data[data == 0] = -1 # scale features to be on or off
+        out = []
+        print data.shape
 
-    # create a network with two input, two hidden, and one output
-    n = BackPropNN(2, 10, 1)
-    # train
-    n.train(pat)
-    #test
-    n.test(pat)
+        for i in range(data.shape[0]):
+            fart = list((data[i,:].tolist(), y[i].tolist()))
+            out.append(fart)
+
+            #time.sleep(20)
+
+        return out
+
+    X = load_data()
+
+    print X[9]
+
+    NN = BackPropNN(64, 20, 10)
+
+    NN.train(X)
+
+    NN.test(X)
 
 if __name__ == '__main__':
-	demo()
+    demo()
