@@ -10,7 +10,7 @@ def sigmoid(x):
 def dsigmoid(x):
     return sigmoid(x) * (1.0 - sigmoid(x))
 
-class BackPropNN(object):
+class mlp_neuralnetwork(object):
     """
     Basic MultiLayer Perceptron (MLP) network, adapted and from the book 'Programming Collective Intelligence' (http://shop.oreilly.com/product/9780596529321.do)
     Consists of three layers: input, hidden and output. The sizes of input and output must match data
@@ -176,7 +176,7 @@ def demo():
 
     print X[9]
 
-    NN = BackPropNN(64, 20, 10)
+    NN = mlp_neuralnetwork(64, 20, 10)
 
     NN.train(X)
 
