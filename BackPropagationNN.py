@@ -118,7 +118,7 @@ class BackPropNN(object):
         for p in patterns:
             print(p[1], '->', self.update(p[0]))
 
-    def train(self, patterns, iterations = 30000, N = 0.2):
+    def train(self, patterns, iterations = 30000, N = 0.0002):
         # N: learning rate
         for i in range(iterations):
             error = 0.0
