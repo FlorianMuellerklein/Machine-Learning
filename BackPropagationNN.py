@@ -137,10 +137,10 @@ class MLP_NeuralNetwork(object):
     def test(self, patterns):
         """
         Currently this will print out the targets next to the predictions.
-        Not useful for actual ML, until the arrays are saved.
+        Not useful for actual ML, just for visual inspection.
         """
         for p in patterns:
-            print(p[1], '->', self.update(p[0]))
+            print(p[1], '->', self.feedForward(p[0]))
 
     def train(self, patterns, iterations = 300, N = 0.0002):
         # N: learning rate
@@ -153,6 +153,15 @@ class MLP_NeuralNetwork(object):
                 error = self.backPropagate(targets, N)
             if i % 100 == 0:
                 print('error %-.5f' % error)
+                
+    def predict(self, X):
+        """
+        return list of predictions after training algorithm
+        """
+        predictions = []
+        for p in X:
+            predictions.append(self.feedForward(p))
+        return predictions
 
 def demo():
     """
@@ -183,7 +192,7 @@ def demo():
 
     print X[9] # make sure the data looks right
 
-    NN = MLP_NeuralNetwork(64, 20, 10)
+    NN = MLP_NeuralNetwork(64, 100, 10)
 
     NN.train(X)
 
