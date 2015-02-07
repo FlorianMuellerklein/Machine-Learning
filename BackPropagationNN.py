@@ -45,6 +45,8 @@ class MLP_NeuralNetwork(object):
         self.wo = np.random.randn(self.hidden, self.output)  # weight vector going from hidden to output
 
         # create arrays of 0 for changes
+        # this is essentially an array of temporary values that gets updated at each iteration
+        # based on how much the weights need to change in the following iteration
         self.ci = np.zeros((self.input, self.hidden))
         self.co = np.zeros((self.hidden, self.output))
 
@@ -142,7 +144,7 @@ class MLP_NeuralNetwork(object):
         for p in patterns:
             print(p[1], '->', self.feedForward(p[0]))
 
-    def train(self, patterns, iterations = 300, N = 0.0002):
+    def train(self, patterns, iterations = 3000, N = 0.0002):
         # N: learning rate
         for i in range(iterations):
             error = 0.0
