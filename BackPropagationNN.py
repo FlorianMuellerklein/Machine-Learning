@@ -25,12 +25,18 @@ class MLP_NeuralNetwork(object):
     An example is provided below with the digit recognition dataset provided by sklearn
     Fully pypy compatible.
     """
-    def __init__(self, input, hidden, output):
+    def __init__(self, input, hidden, output, iterations, learning_rate, momentum):
         """
         :param input: number of input neurons
         :param hidden: number of hidden neurons
         :param output: number of output neurons
         """
+        # initialize parameters
+        self.iterations = iterations
+        self.learning_rate = learning_rate
+        self.momentum = momentum
+        
+        # initialize arrays
         self.input = input + 1 # add 1 for bias node
         self.hidden = hidden
         self.output = output
@@ -82,7 +88,7 @@ class MLP_NeuralNetwork(object):
 
         return self.ao[:]
 
-    def backPropagate(self, targets, N):
+    def backPropagate(self, targets):
         """
         For the output layer
         1. Calculates the difference between output value and target value
@@ -120,14 +126,14 @@ class MLP_NeuralNetwork(object):
         for j in range(self.hidden):
             for k in range(self.output):
                 change = output_deltas[k] * self.ah[j]
-                self.wo[j][k] += N * change + self.co[j][k]
+                self.wo[j][k] += self.learning_rate * change + self.co[j][k] * self.momentum
                 self.co[j][k] = change
 
         # update the weights connecting input to hidden
         for i in range(self.input):
             for j in range(self.hidden):
                 change = hidden_deltas[j] * self.ai[i]
-                self.wi[i][j] += N * change + self.ci[i][j]
+                self.wi[i][j] += self.learning_rate * change + self.ci[i][j] * self.momentum
                 self.ci[i][j] = change
 
         # calculate error
@@ -144,16 +150,16 @@ class MLP_NeuralNetwork(object):
         for p in patterns:
             print(p[1], '->', self.feedForward(p[0]))
 
-    def train(self, patterns, iterations = 3000, N = 0.0002):
+    def train(self, patterns):
         # N: learning rate
-        for i in range(iterations):
+        for i in range(self.iterations):
             error = 0.0
             for p in patterns:
                 inputs = p[0]
                 targets = p[1]
                 self.feedForward(inputs)
-                error = self.backPropagate(targets, N)
-            if i % 100 == 0:
+                error = self.backPropagate(targets)
+            if i % 10 == 0:
                 print('error %-.5f' % error)
                 
     def predict(self, X):
@@ -194,7 +200,7 @@ def demo():
 
     print X[9] # make sure the data looks right
 
-    NN = MLP_NeuralNetwork(64, 100, 10)
+    NN = MLP_NeuralNetwork(64, 100, 10, iterations = 100, learning_rate = 0.0001, momentum = 0.5)
 
     NN.train(X)
 
