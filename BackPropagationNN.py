@@ -110,7 +110,7 @@ class MLP_NeuralNetwork(object):
         # the delta tell you which direction to change the weights
         output_deltas = [0.0] * self.output
         for k in range(self.output):
-            error = 0.5 * ((targets[k] - self.ao[k]) ** 2)
+            error = targets[k] - self.ao[k]
             output_deltas[k] = dsigmoid(self.ao[k]) * error
 
         # calculate error terms for hidden
