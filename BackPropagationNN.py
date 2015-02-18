@@ -116,7 +116,7 @@ class MLP_NeuralNetwork(object):
         # calculate error terms for hidden
         # delta tells you which direction to change the weights
         hidden_deltas = [0.0] * self.hidden
-        for j in range(self.output):
+        for j in range(self.hidden):
             error = 0.0
             for k in range(self.output):
                 error += output_deltas[k] * self.wo[j][k]
