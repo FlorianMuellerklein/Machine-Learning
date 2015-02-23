@@ -1,4 +1,4 @@
-
+import random
 import numpy as np
 np.seterr(all = 'ignore')
 
@@ -25,7 +25,7 @@ class MLP_NeuralNetwork(object):
     An example is provided below with the digit recognition dataset provided by sklearn
     Fully pypy compatible.
     """
-    def __init__(self, input, hidden, output, iterations, learning_rate, momentum):
+    def __init__(self, input, hidden, output, iterations, learning_rate, momentum, rate_decay):
         """
         :param input: number of input neurons
         :param hidden: number of hidden neurons
@@ -35,6 +35,7 @@ class MLP_NeuralNetwork(object):
         self.iterations = iterations
         self.learning_rate = learning_rate
         self.momentum = momentum
+        self.rate_decay = rate_decay
         
         # initialize arrays
         self.input = input + 1 # add 1 for bias node
@@ -154,6 +155,7 @@ class MLP_NeuralNetwork(object):
         # N: learning rate
         for i in range(self.iterations):
             error = 0.0
+            random.shuffle(patterns)
             for p in patterns:
                 inputs = p[0]
                 targets = p[1]
@@ -164,6 +166,8 @@ class MLP_NeuralNetwork(object):
                 errorfile.close()
             if i % 10 == 0:
                 print('error %-.5f' % error)
+            # learning rate decay
+            self.learning_rate = self.learning_rate * (self.learning_rate / (self.learning_rate + (self.learning_rate * self.rate_decay)))
                 
     def predict(self, X):
         """
@@ -203,7 +207,7 @@ def demo():
 
     print X[9] # make sure the data looks right
 
-    NN = MLP_NeuralNetwork(64, 100, 10, iterations = 100, learning_rate = 0.0001, momentum = 0.5)
+    NN = MLP_NeuralNetwork(64, 100, 10, iterations = 100, learning_rate = 0.0001, momentum = 0.5, rate_decay = 0.05)
 
     NN.train(X)
 
