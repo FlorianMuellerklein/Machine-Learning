@@ -160,7 +160,7 @@ class MLP_NeuralNetwork(object):
                 inputs = p[0]
                 targets = p[1]
                 self.feedForward(inputs)
-                error = self.backPropagate(targets)
+                error += self.backPropagate(targets)
             with open('error.txt', 'a') as errorfile:
                 errorfile.write(str(error) + '\n')
                 errorfile.close()
