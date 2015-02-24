@@ -7,10 +7,12 @@ np.seterr(all = 'ignore')
 # if you use the tanh then you should scale between -1 and 1
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
-    
+
+# using tanh over logistic sigmoid is recommended   
 #def sigmoid(x):
 #    return np.tanh(x)
     
+# derivative for tanh sigmoid
 #def dsigmoid(y):
 #    return 1 - y*y
 
