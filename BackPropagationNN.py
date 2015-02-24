@@ -7,6 +7,12 @@ np.seterr(all = 'ignore')
 # if you use the tanh then you should scale between -1 and 1
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
+    
+#def sigmoid(x):
+#    return np.tanh(x)
+    
+#def dsigmoid(y):
+#    return 1 - y*y
 
 # derivative of sigmoid
 def dsigmoid(x):
@@ -48,9 +54,12 @@ class MLP_NeuralNetwork(object):
         self.ao = [1.0] * self.output
 
         # create randomized weights
-        self.wi = np.random.randn(self.input, self.hidden) # weight vector going from input to hidden
-        self.wo = np.random.randn(self.hidden, self.output)  # weight vector going from hidden to output
-
+        # use scheme from 'efficient backprop to initialize weights
+        input_range = 1.0 / self.input ** (1/2)
+        output_range = 1.0 / self.hidden ** (1/2)
+        self.wi = np.random.normal(loc = 0, scale = input_range, size = (self.input, self.hidden))
+        self.wo = np.random.normal(loc = 0, scale = output_range, size = (self.hidden, self.output))
+        
         # create arrays of 0 for changes
         # this is essentially an array of temporary values that gets updated at each iteration
         # based on how much the weights need to change in the following iteration
@@ -187,8 +196,9 @@ def demo():
 
         # first ten values are the one hot encoded y (target) values
         y = data[:,0:10]
-        #y[y == 0] = -1 # if you are using a tanh transfer function make the 0 into -1
-
+        #y[y == 0] = -.90 # if you are using a tanh transfer function make the 0 into -1
+        #y[y == 1] = .90 # try values that won't saturate tanh
+        
         data = data[:,10:] # x data
         data -= data.min() # scale the data so values are between 0 and 1
         data /= data.max() # scale
@@ -207,7 +217,7 @@ def demo():
 
     print X[9] # make sure the data looks right
 
-    NN = MLP_NeuralNetwork(64, 100, 10, iterations = 100, learning_rate = 0.0001, momentum = 0.5, rate_decay = 0.05)
+    NN = MLP_NeuralNetwork(64, 100, 10, iterations = 50, learning_rate = 0.001, momentum = 0.5, rate_decay = 0.01)
 
     NN.train(X)
 
