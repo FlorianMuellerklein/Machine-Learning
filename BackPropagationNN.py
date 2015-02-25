@@ -1,24 +1,26 @@
+import math
 import random
 import numpy as np
 np.seterr(all = 'ignore')
 
 # sigmoid transfer function
-# IMPORTANT: when using the logit (sigmoid) transfer function make sure y values are scaled from 0 to 1
-# if you use the tanh then you should scale between -1 and 1
+# IMPORTANT: when using the logit (sigmoid) transfer function for the output layer make sure y values are scaled from 0 to 1
+# if you use the tanh for the output then you should scale between -1 and 1
+# we will use sigmoid for the output layer and tanh for the hidden layer
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
-# using tanh over logistic sigmoid is recommended   
-#def sigmoid(x):
-#    return np.tanh(x)
-    
-# derivative for tanh sigmoid
-#def dsigmoid(y):
-#    return 1 - y*y
-
 # derivative of sigmoid
 def dsigmoid(x):
-    return sigmoid(x) * (1.0 - sigmoid(x))
+    return x * (1.0 - x)
+
+# using tanh over logistic sigmoid is recommended   
+def tanh(x):
+    return math.tanh(x)
+    
+# derivative for tanh sigmoid
+def dtanh(y):
+    return 1 - y*y
 
 class MLP_NeuralNetwork(object):
     """
@@ -89,7 +91,7 @@ class MLP_NeuralNetwork(object):
             sum = 0.0
             for i in range(self.input):
                 sum += self.ai[i] * self.wi[i][j]
-            self.ah[j] = sigmoid(sum)
+            self.ah[j] = tanh(sum)
 
         # output activations
         for k in range(self.output):
@@ -132,7 +134,7 @@ class MLP_NeuralNetwork(object):
             error = 0.0
             for k in range(self.output):
                 error += output_deltas[k] * self.wo[j][k]
-            hidden_deltas[j] = dsigmoid(self.ah[j]) * error
+            hidden_deltas[j] = dtanh(self.ah[j]) * error
 
         # update the weights connecting hidden to output
         for j in range(self.hidden):
@@ -198,13 +200,14 @@ def demo():
 
         # first ten values are the one hot encoded y (target) values
         y = data[:,0:10]
-        #y[y == 0] = -.90 # if you are using a tanh transfer function make the 0 into -1
+        #y[y == 0] = -1 # if you are using a tanh transfer function make the 0 into -1
         #y[y == 1] = .90 # try values that won't saturate tanh
         
         data = data[:,10:] # x data
+        #data = data - data.mean(axis = 1)
         data -= data.min() # scale the data so values are between 0 and 1
         data /= data.max() # scale
-
+        
         out = []
         print data.shape
 
@@ -219,7 +222,7 @@ def demo():
 
     print X[9] # make sure the data looks right
 
-    NN = MLP_NeuralNetwork(64, 100, 10, iterations = 50, learning_rate = 0.001, momentum = 0.5, rate_decay = 0.01)
+    NN = MLP_NeuralNetwork(64, 100, 10, iterations = 50, learning_rate = 0.5, momentum = 0.5, rate_decay = 0.01)
 
     NN.train(X)
 
