@@ -11,8 +11,8 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 # derivative of sigmoid
-def dsigmoid(x):
-    return x * (1.0 - x)
+def dsigmoid(y):
+    return y * (1.0 - y)
 
 # using tanh over logistic sigmoid is recommended   
 def tanh(x):
