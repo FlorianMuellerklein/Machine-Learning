@@ -1,3 +1,4 @@
+import time
 import random
 import numpy as np
 np.seterr(all = 'ignore')
@@ -14,8 +15,8 @@ def dsigmoid(y):
 
 # using softmax as output layer is recommended for classification where outputs are mutually exclusive
 def softmax(w):
-    e = np.exp(w / 1.0)
-    dist = e / np.sum(e, axis = 0)
+    e = np.exp(w - np.amax(w))
+    dist = e / np.sum(e)
     return dist
 
 def dsoftmax(y):
@@ -123,7 +124,7 @@ class MLP_Classifier(object):
         # calculate error terms for output
         # the delta tell you which direction to change the weights
         #output_deltas = dsigmoid(self.ao) * (targets - self.ao) # sigmoid delta calculation
-        output_deltas = dsoftmax(self.ao) * (targets - self.ao) # softmax delta calculation
+        output_deltas = (np.asarray(targets) - self.ao) # softmax delta calculation
         
         # calculate error terms for hidden
         # delta tells you which direction to change the weights
@@ -141,8 +142,8 @@ class MLP_Classifier(object):
         self.ci = change
 
         # calculate error
-        #error = sum(0.5 * (targets - self.ao)**2)
-        error = -sum(targets * np.log(self.ao))
+        error = sum(0.5 * (targets - self.ao)**2)
+        #error = -sum(targets * np.log(self.ao))
         
         return error
 
