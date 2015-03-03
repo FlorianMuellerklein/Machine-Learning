@@ -77,7 +77,6 @@ class MLP_Classifier(object):
         self.wi = np.random.uniform(size = (self.input, self.hidden)) / np.sqrt(self.input)
         self.wo = np.random.uniform(size = (self.hidden, self.output)) / np.sqrt(self.hidden)
         
-        
         # create arrays of 0 for changes
         # this is essentially an array of temporary values that gets updated at each iteration
         # based on how much the weights need to change in the following iteration
