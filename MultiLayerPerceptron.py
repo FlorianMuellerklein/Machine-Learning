@@ -43,7 +43,7 @@ class MLP_Classifier(object):
     An example is provided below with the digit recognition dataset provided by sklearn
     Fully pypy compatible.
     """
-    def __init__(self, input, hidden, output, iterations, learning_rate, momentum, rate_decay):
+    def __init__(self, input, hidden, output, iterations, learning_rate, momentum, rate_decay, verbose = 0):
         """
         :param input: number of input neurons
         :param hidden: number of hidden neurons
@@ -54,6 +54,7 @@ class MLP_Classifier(object):
         self.learning_rate = learning_rate
         self.momentum = momentum
         self.rate_decay = rate_decay
+        self.verbose = verbose
         
         # initialize arrays
         self.input = input + 1 # add 1 for bias node
@@ -143,7 +144,7 @@ class MLP_Classifier(object):
 
         # calculate error
         error = sum(0.5 * (targets - self.ao)**2)
-        #error = -sum(targets * np.log(self.ao))
+        #error = sum(targets * np.log(self.ao))
         
         return error
 
@@ -170,8 +171,9 @@ class MLP_Classifier(object):
                 errorfile.write(str(error) + '\n')
                 errorfile.close()
                 
-            if i % 10 == 0:
-                print('error %-.5f' % error)
+            if i % 10 == 0 and self.verbose == 1:
+                error = error/self.output
+                print('Training error %-.5f' % error)
                 
             # learning rate decay
             self.learning_rate = self.learning_rate * (self.learning_rate / (self.learning_rate + (self.learning_rate * self.rate_decay)))
@@ -194,13 +196,10 @@ def demo():
 
         # first ten values are the one hot encoded y (target) values
         y = data[:,0:10]
-        #y[y == 0] = -1 # if you are using a tanh transfer function make the 0 into -1
-        #y[y == 1] = .90 # try values that won't saturate tanh
         
         data = data[:,10:] # x data
-        #data = data - data.mean(axis = 1)
-        data -= data.min() # scale the data so values are between 0 and 1
         data /= data.max() # scale
+        data -= data.min() # scale the data so values are between 0 and 1
         
         out = []
         print data.shape
@@ -216,7 +215,8 @@ def demo():
 
     print X[9] # make sure the data looks right
 
-    NN = MLP_NeuralNetwork(64, 100, 10, iterations = 50, learning_rate = 0.5, momentum = 0.5, rate_decay = 0.01)
+    NN = MLP_Classifier(64, 100, 10, iterations = 50, learning_rate = 0.5, 
+                        momentum = 0.5, rate_decay = 0.01, verbose = 1)
 
     NN.train(X)
 
