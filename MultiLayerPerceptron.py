@@ -32,7 +32,7 @@ def dtanh(y):
 
 class MLP_Classifier(object):
     """
-    Basic MultiLayer Perceptron (MLP) network, adapted and from the book 'Programming Collective Intelligence' (http://shop.oreilly.com/product/9780596529321.do)
+    Basic MultiLayer Perceptron (MLP) network, adapted and updated from the book 'Programming Collective Intelligence' (http://shop.oreilly.com/product/9780596529321.do)
     Consists of three layers: input, hidden and output. The sizes of input and output must match data
     the size of hidden is user defined when initializing the network.
     The algorithm has been generalized to be used on any dataset.
@@ -76,10 +76,13 @@ class MLP_Classifier(object):
 
         # create randomized weights
         # use scheme from Efficient Backprop by LeCun 1998 to initialize weights
-        input_range = 1.0 / self.input ** (1/2)
-        output_range = 1.0 / self.hidden ** (1/2)
-        self.wi = np.random.normal(loc = 0, scale = input_range, size = (self.input, self.hidden))
-        self.wo = np.random.normal(loc = 0, scale = output_range, size = (self.hidden, self.output))
+        #input_range = 1.0 / self.input ** (1/2)
+        #output_range = 1.0 / self.hidden ** (1/2)
+        #self.wi = np.random.normal(loc = 0, scale = input_range, size = (self.input, self.hidden))
+        #self.wo = np.random.normal(loc = 0, scale = output_range, size = (self.hidden, self.output))
+        self.wi = np.random.uniform(size = (self.input, self.hidden)) / np.sqrt(self.input)
+        self.wo = np.random.uniform(size = (self.hidden, self.output)) / np.sqrt(self.hidden)
+        
         
         # create arrays of 0 for changes
         # this is essentially an array of temporary values that gets updated at each iteration
@@ -169,7 +172,12 @@ class MLP_Classifier(object):
             print(p[1], '->', self.feedForward(p[0]))
 
     def train(self, patterns):
-        # N: learning rate
+        if self.verbose == 1:
+            if self.output_activation == 'softmax':
+                print 'Using softmax activation in output layer'
+            elif self.output_activation == 'logistic':
+                print 'Using logistic sigmoid activation in output layer'
+                
         for i in range(self.iterations):
             error = 0.0
             random.shuffle(patterns)
@@ -200,6 +208,7 @@ class MLP_Classifier(object):
         return predictions
 
 def demo():
+    from sklearn.preprocessing import scale
     """
     run NN demo on the digit recognition dataset from sklearn
     """
@@ -210,8 +219,7 @@ def demo():
         y = data[:,0:10]
         
         data = data[:,10:] # x data
-        data /= data.max() # scale
-        data -= data.min() # scale the data so values are between 0 and 1
+        data = scale(data)
         
         out = []
         print data.shape
@@ -227,12 +235,12 @@ def demo():
 
     print X[9] # make sure the data looks right
 
-    NN = MLP_Classifier(64, 100, 10, iterations = 50, learning_rate = 0.5, 
-                        momentum = 0.5, rate_decay = 0.01, output_layer = 'softmax', verbose = 1)
+    NN = MLP_Classifier(64, 400, 10, iterations = 50, learning_rate = 0.01, 
+                        momentum = 0.5, rate_decay = 0.0001, output_layer = 'logistic', verbose = 1)
 
     NN.train(X)
 
-    NN.test(X)
+    #NN.test(X)
 
 if __name__ == '__main__':
     demo()
