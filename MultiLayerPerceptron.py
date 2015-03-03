@@ -4,8 +4,6 @@ import numpy as np
 np.seterr(all = 'ignore')
 
 # transfer functions
-# we will use softmax for the output layer and tanh for the hidden layer
-# the logit sigmoid transfer function is listed even though it's not used
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
