@@ -17,9 +17,6 @@ def softmax(w):
     dist = e / np.sum(e)
     return dist
 
-def dsoftmax(y):
-    return y * (1.0 - y)
-
 # using tanh over logistic sigmoid for the hidden layer is recommended   
 def tanh(x):
     return np.tanh(x)
