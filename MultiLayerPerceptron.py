@@ -38,7 +38,7 @@ class MLP_Classifier(object):
     An example is provided below with the digit recognition dataset provided by sklearn
     Fully pypy compatible.
     """
-    def __init__(self, input, hidden, output, iterations, learning_rate, 
+    def __init__(self, input, hidden, output, iterations, learning_rate, l2_in, l2_out, 
                     momentum, rate_decay, output_layer, verbose = 0):
         """
         :param input: number of input neurons
@@ -46,6 +46,7 @@ class MLP_Classifier(object):
         :param output: number of output neurons
         :param iterations: how many epochs
         :param learning_rate: initial learning rate
+        :param l2: L2 regularization term
         :param momentum: momentum
         :param rate_decay: how much to decrease learning rate by on each iteration (epoch)
         :param output_layer: activation (transfer) function of the output layer
@@ -54,6 +55,8 @@ class MLP_Classifier(object):
         # initialize parameters
         self.iterations = iterations
         self.learning_rate = learning_rate
+        self.l2_in = l2_in
+        self.l2_out = l2_out
         self.momentum = momentum
         self.rate_decay = rate_decay
         self.verbose = verbose
@@ -70,11 +73,7 @@ class MLP_Classifier(object):
         self.ao = np.ones(self.output)
 
         # create randomized weights
-        # use scheme from Efficient Backprop by LeCun 1998 to initialize weights
-        #input_range = 1.0 / self.input ** (1/2)
-        #output_range = 1.0 / self.hidden ** (1/2)
-        #self.wi = np.random.normal(loc = 0, scale = input_range, size = (self.input, self.hidden))
-        #self.wo = np.random.normal(loc = 0, scale = output_range, size = (self.hidden, self.output))
+        # use scheme that takes into account size of each layer
         self.wi = np.random.uniform(size = (self.input, self.hidden)) / np.sqrt(self.input)
         self.wo = np.random.uniform(size = (self.hidden, self.output)) / np.sqrt(self.hidden)
         
@@ -106,7 +105,13 @@ class MLP_Classifier(object):
         
         # output activations
         sum = np.dot(self.wo.T, self.ah)
-        self.ao = softmax(sum)
+        if self.output_activation == 'logistic':
+            self.ao = sigmoid(sum)
+        elif self.output_activation == 'softmax':
+            self.ao = softmax(sum)
+        else:
+            raise ValueError('Choose a compatible output layer activation or check your spelling ;-p') 
+        
         
         return self.ao
 
@@ -129,27 +134,29 @@ class MLP_Classifier(object):
             raise ValueError('Wrong number of targets you silly goose!')
 
         # calculate error terms for output
-        # the delta tell you which direction to change the weights
+        # the delta (theta) tell you which direction to change the weights
         if self.output_activation == 'logistic':
             output_deltas = dsigmoid(self.ao) * (targets - self.ao)
         elif self.output_activation == 'softmax':
-            output_deltas = targets - self.ao
+            output_deltas = (targets - self.ao)
         else:
             raise ValueError('Choose a compatible output layer activation or check your spelling ;-p') 
         
         # calculate error terms for hidden
-        # delta tells you which direction to change the weights
+        # delta (theta) tells you which direction to change the weights
         error = np.dot(self.wo, output_deltas)
         hidden_deltas = dtanh(self.ah) * error
         
-        # update the weights connecting hidden to output
+        # update the weights connecting hidden to output, change == partial derivative
         change = output_deltas * np.reshape(self.ah, (self.ah.shape[0],1))
-        self.wo += self.learning_rate * change + self.co * self.momentum
-        self.co = change
+        regularization = self.learning_rate * self.l2_out * self.wo
+        self.wo += self.learning_rate * change - regularization + self.co * self.momentum 
+        self.co = change 
 
-        # update the weights connecting input to hidden
+        # update the weights connecting input to hidden, change == partial derivative
         change = hidden_deltas * np.reshape(self.ai, (self.ai.shape[0], 1))
-        self.wi += self.learning_rate * change + self.ci * self.momentum
+        regularization = self.learning_rate * self.l2_in * self.wi
+        self.wi += self.learning_rate * change - regularization + self.ci * self.momentum 
         self.ci = change
 
         # calculate error
@@ -231,7 +238,8 @@ def demo():
     print X[9] # make sure the data looks right
 
     NN = MLP_Classifier(64, 400, 10, iterations = 50, learning_rate = 0.01, 
-                        momentum = 0.5, rate_decay = 0.0001, output_layer = 'logistic', verbose = 1)
+                        momentum = 0.5, rate_decay = 0.0001, 
+                        output_layer = 'logistic', verbose = 1)
 
     NN.train(X)
 
