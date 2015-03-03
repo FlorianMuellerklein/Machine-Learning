@@ -57,7 +57,7 @@ class MLP_Classifier(object):
         
         # initialize arrays
         self.input = input + 1 # add 1 for bias node
-        self.hidden = hidden
+        self.hidden = hidden 
         self.output = output
 
         # set up array of 1s for activations
@@ -124,7 +124,7 @@ class MLP_Classifier(object):
         # calculate error terms for output
         # the delta tell you which direction to change the weights
         #output_deltas = dsigmoid(self.ao) * (targets - self.ao) # sigmoid delta calculation
-        output_deltas = (np.asarray(targets) - self.ao) # softmax delta calculation
+        output_deltas = targets - self.ao # softmax delta calculation
         
         # calculate error terms for hidden
         # delta tells you which direction to change the weights
@@ -138,7 +138,7 @@ class MLP_Classifier(object):
 
         # update the weights connecting input to hidden
         change = hidden_deltas * np.reshape(self.ai, (self.ai.shape[0], 1))
-        self.wi += self.learning_rate *change + self.ci * self.momentum
+        self.wi += self.learning_rate * change + self.ci * self.momentum
         self.ci = change
 
         # calculate error
