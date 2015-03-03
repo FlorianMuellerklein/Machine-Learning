@@ -43,11 +43,18 @@ class MLP_Classifier(object):
     An example is provided below with the digit recognition dataset provided by sklearn
     Fully pypy compatible.
     """
-    def __init__(self, input, hidden, output, iterations, learning_rate, momentum, rate_decay, verbose = 0):
+    def __init__(self, input, hidden, output, iterations, learning_rate, 
+                    momentum, rate_decay, output_layer, verbose = 0):
         """
         :param input: number of input neurons
         :param hidden: number of hidden neurons
         :param output: number of output neurons
+        :param iterations: how many epochs
+        :param learning_rate: initial learning rate
+        :param momentum: momentum
+        :param rate_decay: how much to decrease learning rate by on each iteration (epoch)
+        :param output_layer: activation (transfer) function of the output layer
+        :param verbose: whether to spit out error rates while training
         """
         # initialize parameters
         self.iterations = iterations
@@ -55,6 +62,7 @@ class MLP_Classifier(object):
         self.momentum = momentum
         self.rate_decay = rate_decay
         self.verbose = verbose
+        self.output_activation = output_layer
         
         # initialize arrays
         self.input = input + 1 # add 1 for bias node
@@ -124,8 +132,12 @@ class MLP_Classifier(object):
 
         # calculate error terms for output
         # the delta tell you which direction to change the weights
-        #output_deltas = dsigmoid(self.ao) * (targets - self.ao) # sigmoid delta calculation
-        output_deltas = targets - self.ao # softmax delta calculation
+        if self.output_activation == 'logistic':
+            output_deltas = dsigmoid(self.ao) * (targets - self.ao)
+        elif self.output_activation == 'softmax':
+            output_deltas = targets - self.ao
+        else:
+            raise ValueError('Choose a compatible output layer activation or check your spelling ;-p') 
         
         # calculate error terms for hidden
         # delta tells you which direction to change the weights
@@ -216,7 +228,7 @@ def demo():
     print X[9] # make sure the data looks right
 
     NN = MLP_Classifier(64, 100, 10, iterations = 50, learning_rate = 0.5, 
-                        momentum = 0.5, rate_decay = 0.01, verbose = 1)
+                        momentum = 0.5, rate_decay = 0.01, output_layer = 'softmax', verbose = 1)
 
     NN.train(X)
 
