@@ -5,10 +5,11 @@ import numpy as np
 class Logit(object):
     """
     logistic regression using gradient descent!!
-    takes three arguments: alpha (learning rate), number of iterations for SGD, and verbose if you want to see output
+    takes three arguments: learning_rate (learning rate), number of iterations for SGD, and verbose if you want to see output
     """
-    def __init__(self, alpha, iterations, verbose, tolerance, l2, intercept = True):
-        self.alpha = alpha
+    def __init__(self, learning_rate = 0.01, iterations = 100, verbose = True, 
+                tolerance = 0, l2 = 0, intercept = True):
+        self.learning_rate = learning_rate
         self.iterations = iterations
         self.tolerance = tolerance
         self.intercept = intercept
@@ -49,7 +50,7 @@ class Logit(object):
             # make predictions
             predicted = self.sigmoid(np.dot(X, self.theta.T))
             # update theta with gradient descent
-            self.theta = (self.theta * (1 - (self.alpha * self.l2))) - self.alpha * np.dot((predicted - y).T, X)
+            self.theta = (self.theta * (1 - (self.learning_rate * self.l2))) - self.learning_rate * np.dot((predicted - y).T, X)
             # sum of squares cost
             error = predicted - y
             cost = np.sum(error**2) / (2 * num_examples)
@@ -102,10 +103,10 @@ def demo():
     from sklearn.metrics import confusion_matrix, classification_report 
     # initialize linear regression parameters
     max_iterations = 50000
-    alpha = 0.0001
+    learning_rate = 0.0001
     l2 = 1.0
 
-    lgit = Logit(alpha = alpha, iterations = max_iterations, 
+    lgit = Logit(learning_rate = learning_rate, iterations = max_iterations, 
                 verbose = True, tolerance = 0.001, l2 = l2)
 
     data = np.loadtxt('Data/ionosphere.csv', delimiter = ',')

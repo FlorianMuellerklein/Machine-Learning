@@ -3,10 +3,11 @@ import numpy as np
 class LinReg(object):
     """
     multivariate linear regression using gradient descent!!
-    takes three arguments: alpha (learning rate), number of iterations for SGD, and verbose if you want to see output
+    takes three arguments: learning_rate (learning rate), number of iterations for SGD, and verbose if you want to see output
     """
-    def __init__(self, alpha = 0.01, iterations = 50, verbose = 0, l2 = 0, intercept = True):
-        self.alpha = alpha
+    def __init__(self, learning_rate = 0.01, iterations = 50, verbose = True, l2 = 0, 
+                intercept = True):
+        self.learning_rate = learning_rate
         self.iterations = iterations
         self.intercept = intercept
         self.verbose = verbose
@@ -34,12 +35,12 @@ class LinReg(object):
             # make prediction
             predicted = np.dot(X, self.theta.T)
             # update theta with gradient descent
-            self.theta = (self.theta * (1 - (self.alpha * self.l2))) - self.alpha / num_examples * np.dot((predicted - y).T, X)
+            self.theta = (self.theta * (1 - (self.learning_rate * self.l2))) - self.learning_rate / num_examples * np.dot((predicted - y).T, X)
             # sum of squares cost
             error = predicted - y
             cost = np.sum(error**2) / (2 * num_examples)
             
-            if i % 10 == 0 and self.verbose == 1:
+            if i % 10 == 0 and self.verbose == True:
                 print 'iteration:', i
                 print 'theta:', self.theta
                 print 'cost:', cost
@@ -69,10 +70,10 @@ class LinReg(object):
 def demo():
     # initialize linear regression parameters
     iterations = 2000
-    alpha = 0.1
+    learning_rate = 0.1
     l2 = 0.0001
 
-    linearReg = LinReg(alpha = alpha, iterations = iterations, verbose = 1, l2 = l2)
+    linearReg = LinReg(learning_rate = learning_rate, iterations = iterations, verbose = 1, l2 = l2)
 
     data = np.genfromtxt('Data/blood_pressure.csv', delimiter = ',', skip_header = 1)
     X = data[:, 1:]

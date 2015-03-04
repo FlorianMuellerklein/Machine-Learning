@@ -40,7 +40,7 @@ class MLP_Classifier(object):
     """
     def __init__(self, input, hidden, output, iterations = 50, learning_rate = 0.01, 
                 l2_in = 0, l2_out = 0, momentum = 0, rate_decay = 0, 
-                output_layer = 'logistic', verbose = 0):
+                output_layer = 'logistic', verbose = True):
         """
         :param input: number of input neurons
         :param hidden: number of hidden neurons
@@ -174,7 +174,7 @@ class MLP_Classifier(object):
             print(p[1], '->', self.feedForward(p[0]))
 
     def fit(self, patterns):
-        if self.verbose == 1:
+        if self.verbose == True:
             if self.output_activation == 'softmax':
                 print 'Using softmax activation in output layer'
             elif self.output_activation == 'logistic':
@@ -193,7 +193,7 @@ class MLP_Classifier(object):
                 errorfile.write(str(error) + '\n')
                 errorfile.close()
                 
-            if i % 10 == 0 and self.verbose == 1:
+            if i % 10 == 0 and self.verbose == True:
                 error = error/self.output
                 print('Training error %-.5f' % error)
                 
@@ -239,7 +239,7 @@ def demo():
 
     NN = MLP_Classifier(64, 400, 10, iterations = 50, learning_rate = 0.01, 
                         momentum = 0.5, rate_decay = 0.0001, 
-                        output_layer = 'logistic', verbose = 1)
+                        output_layer = 'logistic')
 
     NN.fit(X)
 
