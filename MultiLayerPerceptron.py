@@ -135,9 +135,9 @@ class MLP_Classifier(object):
         # calculate error terms for output
         # the delta (theta) tell you which direction to change the weights
         if self.output_activation == 'logistic':
-            output_deltas = dsigmoid(self.ao) * (targets - self.ao)
+            output_deltas = dsigmoid(self.ao) * -(targets - self.ao)
         elif self.output_activation == 'softmax':
-            output_deltas = (targets - self.ao)
+            output_deltas = -(targets - self.ao)
         else:
             raise ValueError('Choose a compatible output layer activation or check your spelling ;-p') 
         
@@ -149,13 +149,13 @@ class MLP_Classifier(object):
         # update the weights connecting hidden to output, change == partial derivative
         change = output_deltas * np.reshape(self.ah, (self.ah.shape[0],1))
         regularization = self.l2_out * self.wo
-        self.wo += self.learning_rate * (change - regularization) + self.co * self.momentum 
+        self.wo -= self.learning_rate * (change + regularization) + self.co * self.momentum 
         self.co = change 
 
         # update the weights connecting input to hidden, change == partial derivative
         change = hidden_deltas * np.reshape(self.ai, (self.ai.shape[0], 1))
         regularization = self.l2_in * self.wi
-        self.wi += self.learning_rate * (change - regularization) + self.ci * self.momentum 
+        self.wi -= self.learning_rate * (change + regularization) + self.ci * self.momentum 
         self.ci = change
 
         # calculate error
