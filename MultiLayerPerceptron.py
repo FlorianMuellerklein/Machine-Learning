@@ -38,8 +38,9 @@ class MLP_Classifier(object):
     An example is provided below with the digit recognition dataset provided by sklearn
     Fully pypy compatible.
     """
-    def __init__(self, input, hidden, output, iterations, learning_rate, l2_in, l2_out, 
-                    momentum, rate_decay, output_layer, verbose = 0):
+    def __init__(self, input, hidden, output, iterations = 50, learning_rate = 0.01, 
+                l2_in = 0, l2_out = 0, momentum = 0, rate_decay = 0, 
+                output_layer = 'logistic', verbose = 0):
         """
         :param input: number of input neurons
         :param hidden: number of hidden neurons
