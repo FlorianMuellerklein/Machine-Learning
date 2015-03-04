@@ -7,11 +7,13 @@ class Logit(object):
     logistic regression using gradient descent!!
     takes three arguments: alpha (learning rate), number of iterations for SGD, and verbose if you want to see output
     """
-    def __init__(self, alpha, iterations, verbose, tolerance):
+    def __init__(self, alpha, iterations, verbose, tolerance, l2, intercept = True):
         self.alpha = alpha
         self.iterations = iterations
         self.tolerance = tolerance
+        self.intercept = intercept
         self.verbose = verbose
+        self.l2 = l2
         self.theta = None
         self.mean = []
         self.std = []
@@ -26,7 +28,7 @@ class Logit(object):
         # typical sigmoid py line, seems to get errors with arrays
         return 1 / (1 + np.exp(-x))
 
-    def gradient_descent(self, X, y):
+    def fit(self, X, y):
         """
         Search algorithm - loops over theta and updates to
         take steps in direction of steepest decrease of J.
@@ -35,6 +37,10 @@ class Logit(object):
         :input y: must be numpy vector of 0 and 1
         :return: value of theta that minimizes J(theta) and J_history
         """
+        if self.intercept:
+            intercept = np.ones((np.shape(X)[0],1))
+            X = np.concatenate((intercept, X), 1)
+        
         num_examples, num_features = np.shape(X)
 
         # initialize theta to 1
@@ -42,14 +48,15 @@ class Logit(object):
 
         for i in range(self.iterations):
             # make predictions
-            predicted = self.sigmoid(np.dot(X, self.theta))
+            predicted = self.sigmoid(np.dot(X, self.theta.T))
             # update theta with gradient descent
-            self.theta = self.theta - self.alpha / num_examples * np.dot((predicted - y), X)
+            #self.theta -= self.alpha / num_examples * (np.dot((predicted - y).T, X) + (self.l2 * self.theta))
+            self.theta = (self.theta * (1 - (self.alpha * self.l2))) - self.alpha * np.dot((predicted - y).T, X)
             # sum of squares cost
             error = predicted - y
             cost = np.sum(error**2) / (2 * num_examples)
 
-            if i % 5000 == 0 and self.verbose == True:
+            if i % (self.iterations/10) == 0 and self.verbose == True:
                 print 'iteration:', i
                 print 'theta:', self.theta
                 print 'cost:', cost
@@ -60,30 +67,6 @@ class Logit(object):
 
         return self.theta
 
-    def transform(self, data):
-        """
-        Calculate mean and standard deviation of data
-        Transform data by subtracting by mean and
-        dividing by std
-
-        :param data: data file
-        :return: transformed data
-        """
-
-        # transform
-        X_norm = data
-        for i in range(data.shape[1]):
-            mean = np.mean(data[:,i])
-            std = np.std(data[:,i])
-            self.mean.append(mean)
-            self.std.append(std)
-            X_norm[:,i] = (X_norm[:,i] - mean) / std
-
-        X_int = np.ones(shape =(X_norm.shape[0],1))
-        X_norm = np.hstack((X_int, X_norm))
-
-        return X_norm
-
     def predict(self, X, labels):
         """
         Make linear prediction based on cost and gradient descent
@@ -92,73 +75,67 @@ class Logit(object):
         :param labels: boolean
         :return: return prediction
         """
-        num_examples = X.size
-        prediction = 0
-        for value in range(num_examples):
-            prediction = prediction + X[value] * self.theta[value]
-
-        prediction = self.sigmoid(prediction)
-
-        if labels:
-            if prediction > 0.5:
-                prediction = int(1)
+        if self.intercept:
+            intercept = np.ones((np.shape(X)[0],1))
+            X = np.concatenate((intercept, X), 1)
+            
+        num_examples, num_features = np.shape(X)
+        prediction = []
+        for sample in range(num_examples):
+            yhat = 0
+            for value in range(num_features):
+                yhat += X[sample, value] * self.theta[value]
+            
+            pred = self.sigmoid(yhat)
+            
+            if labels:
+                if pred > 0.5:
+                    prediction.append(int(1))
+                else:
+                    prediction.append(int(0))
             else:
-                prediction = int(0)
-
+                prediction.append(yhat)   
+                
         return prediction
+        
 
 def demo():
-    ##########################################################
-    ########## Test file for Logistic Classifier #############
-    ##########################################################
-
+    from sklearn.cross_validation import train_test_split
+    from sklearn.metrics import confusion_matrix, classification_report 
     # initialize linear regression parameters
-    iterations = 100000
-    alpha = 0.01
+    max_iterations = 50000
+    alpha = 0.0001
+    l2 = 1.0
 
     # plot the data with seaborn (add this later)
 
-    lgit = Logit(alpha = alpha, iterations = iterations, verbose = True, tolerance = 0.02)
+    lgit = Logit(alpha = alpha, iterations = max_iterations, 
+                verbose = True, tolerance = 0.001, l2 = l2)
 
-    # load the example data stolen from 'http://aimotion.blogspot.com/2011/10/machine-learning-with-python-linear.html'
-    data = np.loadtxt('Data/heart.txt', delimiter = ',')
+    data = np.loadtxt('Data/ionosphere.csv', delimiter = ',')
     X = data[:, 1:]
     y = data[:, 0]
+    
+    # scale data
+    max = np.amax(X)
+    X /= max
+    
+    prediction = []
+    correct = []
+    for i in range(0,10):
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.1)
 
-    ##########################################################
-    ################### DEBUG BABY! ##########################
-
-    #import pdb
-    #pdb.set_trace()
-    # creates breakpoint for manually interaction dawg
-
-    # transform data
-    #X = lgit.transform(X)
-    #print X[1,:]
-
-    # fit the linear reg
-    lgit.gradient_descent(X = X, y = y)
-
-    # load testing dataset
-    test = np.loadtxt('Data/heart_test.txt', delimiter = ',')
-    X_test = test[:, 1:]
-    y_test = test[:, 0]
-
-    # transform testing data
-    #X_test = lgit.transform(X_test)
-    #print X_test[1,:]
-
-    # make a predictions
-    prediction = np.zeros(shape = (y_test.size, 2))
-    correct = 0
-    for i in range(y_test.size):
-        prediction[i,0] = lgit.predict(X_test[i, :], labels = True)
-        prediction[i, 1] = y_test[i]
-        if prediction[i, 0] == prediction[i, 1]:
-            correct += 1
-
-    print 'correct: ', correct
-    #np.savetxt('logitpreds.csv', prediction, delimiter = ',')
-
+        # fit the reg
+        lgit.fit(X = X_train, y = y_train)
+    
+        # make a predictions
+        prediction.append(lgit.predict(X_test, labels = True))
+        correct.append(y_test.tolist())
+    
+    print prediction
+    print correct
+    print classification_report(np.array(correct), np.array(prediction))
+    
 if __name__ == '__main__':
     demo()

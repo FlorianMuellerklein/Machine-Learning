@@ -5,10 +5,12 @@ class LinReg(object):
     multivariate linear regression using gradient descent!!
     takes three arguments: alpha (learning rate), number of iterations for SGD, and verbose if you want to see output
     """
-    def __init__(self, alpha = 0.01, iterations = 50, verbose = 0):
+    def __init__(self, alpha = 0.01, iterations = 50, verbose = 0, l2 = 0, intercept = True):
         self.alpha = alpha
         self.iterations = iterations
+        self.intercept = intercept
         self.verbose = verbose
+        self.l2 = l2
         self.theta = None
         self.mean = []
         self.std = []
@@ -19,6 +21,10 @@ class LinReg(object):
         take steps in direction of steepest decrease of J.
         :return: value of theta that minimizes J(theta) and J_history
         """
+        if self.intercept:
+            intercept = np.ones((np.shape(X)[0],1))
+            X = np.concatenate((intercept, X), 1)
+            
         num_examples, num_features = np.shape(X)
 
         # initialize theta to 1
@@ -26,9 +32,9 @@ class LinReg(object):
 
         for i in range(self.iterations):
             # make prediction
-            predicted = np.dot(X, self.theta)
+            predicted = np.dot(X, self.theta.T)
             # update theta with gradient descent
-            self.theta = self.theta - self.alpha / num_examples * np.dot((predicted - y), X)
+            self.theta = (self.theta * (1 - (self.alpha * self.l2))) - self.alpha / num_examples * np.dot((predicted - y).T, X)
             # sum of squares cost
             error = predicted - y
             cost = np.sum(error**2) / (2 * num_examples)
@@ -46,6 +52,10 @@ class LinReg(object):
         :param X: new data to make predictions on
         :return: return prediction
         """
+        if self.intercept:
+            intercept = np.ones((np.shape(X)[0],1))
+            X = np.concatenate((intercept, X), 1)
+        
         num_examples, num_features = np.shape(X)
         prediction = []
         for sample in range(num_examples):
@@ -60,8 +70,9 @@ def demo():
     # initialize linear regression parameters
     iterations = 2000
     alpha = 0.1
+    l2 = 0.0001
 
-    linearReg = LinReg(alpha = alpha, iterations = iterations, verbose = 1)
+    linearReg = LinReg(alpha = alpha, iterations = iterations, verbose = 1, l2 = l2)
 
     data = np.genfromtxt('Data/blood_pressure.csv', delimiter = ',', skip_header = 1)
     X = data[:, 1:]
