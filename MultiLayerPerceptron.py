@@ -173,7 +173,7 @@ class MLP_Classifier(object):
         for p in patterns:
             print(p[1], '->', self.feedForward(p[0]))
 
-    def train(self, patterns):
+    def fit(self, patterns):
         if self.verbose == 1:
             if self.output_activation == 'softmax':
                 print 'Using softmax activation in output layer'
@@ -241,7 +241,7 @@ def demo():
                         momentum = 0.5, rate_decay = 0.0001, 
                         output_layer = 'logistic', verbose = 1)
 
-    NN.train(X)
+    NN.fit(X)
 
     #NN.test(X)
 
