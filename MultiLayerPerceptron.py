@@ -148,14 +148,14 @@ class MLP_Classifier(object):
         
         # update the weights connecting hidden to output, change == partial derivative
         change = output_deltas * np.reshape(self.ah, (self.ah.shape[0],1))
-        regularization = self.learning_rate * self.l2_out * self.wo
-        self.wo += self.learning_rate * change - regularization + self.co * self.momentum 
+        regularization = self.l2_out * self.wo
+        self.wo += self.learning_rate * (change - regularization) + self.co * self.momentum 
         self.co = change 
 
         # update the weights connecting input to hidden, change == partial derivative
         change = hidden_deltas * np.reshape(self.ai, (self.ai.shape[0], 1))
-        regularization = self.learning_rate * self.l2_in * self.wi
-        self.wi += self.learning_rate * change - regularization + self.ci * self.momentum 
+        regularization = self.l2_in * self.wi
+        self.wi += self.learning_rate * (change - regularization) + self.ci * self.momentum 
         self.ci = change
 
         # calculate error
