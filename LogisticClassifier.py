@@ -133,8 +133,6 @@ def demo():
         prediction.append(lgit.predict(X_test, labels = True))
         correct.append(y_test.tolist())
     
-    print prediction
-    print correct
     print classification_report(np.array(correct), np.array(prediction))
     
 if __name__ == '__main__':
