@@ -100,7 +100,6 @@ def demo():
 
     print 'correct: ', y_test
     print 'prediction: ', predictions
-    #np.savetxt('logitpreds.csv', prediction, delimiter = ',')
 
 if __name__ == '__main__':
     demo()

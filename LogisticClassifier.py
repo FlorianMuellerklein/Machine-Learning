@@ -25,7 +25,6 @@ class Logit(object):
         :param x: input vector
         :return: sigmoided vector
         """
-        # typical sigmoid py line, seems to get errors with arrays
         return 1 / (1 + np.exp(-x))
 
     def fit(self, X, y):
@@ -50,7 +49,6 @@ class Logit(object):
             # make predictions
             predicted = self.sigmoid(np.dot(X, self.theta.T))
             # update theta with gradient descent
-            #self.theta -= self.alpha / num_examples * (np.dot((predicted - y).T, X) + (self.l2 * self.theta))
             self.theta = (self.theta * (1 - (self.alpha * self.l2))) - self.alpha * np.dot((predicted - y).T, X)
             # sum of squares cost
             error = predicted - y
@@ -106,8 +104,6 @@ def demo():
     max_iterations = 50000
     alpha = 0.0001
     l2 = 1.0
-
-    # plot the data with seaborn (add this later)
 
     lgit = Logit(alpha = alpha, iterations = max_iterations, 
                 verbose = True, tolerance = 0.001, l2 = l2)
