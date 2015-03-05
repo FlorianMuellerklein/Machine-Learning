@@ -1,7 +1,7 @@
 # Machine-Learning
 Various machine learning algorithms broken down in basic and readable python code. Useful for studying and learning how the algorithms function.
 
-* MultiLayerPerceptron.py - Basic multilayer perceptron neural network written with numpy. With weight decay regularization, learning rate decay, softmax or logistic sigmoid output layer, and logistic sigmoid or tanh hidden layer.
+* MultiLayerPerceptron.py - Basic multilayer perceptron neural network written with numpy. With weight decay regularization, learning rate decay, softmax or logistic sigmoid output layer, and tanh hidden layer.
 
 * LinearRegression.py - python version of simple linear regression from scratch!
 
