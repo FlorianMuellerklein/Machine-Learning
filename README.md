@@ -42,7 +42,7 @@ Various machine learning algorithms broken down in basic and readable python cod
 NN = MLP_Classifier(64, 100, 10)
 ```
 
-2) Train the network with the training dataset. The training dataset must be in the following format with y values one hot encoded. There is an example in the demo function of the MLP on how to import with numpy and get it into the appropriate format.  
+2) Train the network with the training dataset. The training dataset must be in the following format with y values one hot encoded. There is an example in the demo function of the MLP on how to import data with numpy and get it into the appropriate format.  
 ```	
 	[[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]],
     [[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]],
