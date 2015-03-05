@@ -39,7 +39,7 @@ Various machine learning algorithms broken down in basic and readable python cod
 
 1) Initialize the network and setting up the size of each layer.
 ```python
-NN = MLP_NeuralNetwork(64, 100, 10)
+NN = MLP_Classifier(64, 100, 10)
 ```
 
 2) Train the network with the training dataset. The training dataset must be in format with y values one hot encoded: 
