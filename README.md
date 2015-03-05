@@ -43,10 +43,12 @@ NN = MLP_NeuralNetwork(64, 100, 10)
 ```
 
 2) Train the network with the training dataset. The training dataset must be in format: 
+```	
 	[[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]],
     [[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]],
     ...
     [[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]]]
+```
 	
 ```python
 NN.fit(train)
