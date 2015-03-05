@@ -3,11 +3,10 @@ Various machine learning algorithms broken down in basic and readable python cod
 
 * MultiLayerPerceptron.py - Basic multilayer perceptron neural network written with numpy. With weight decay regularization, learning rate decay, softmax or logistic sigmoid output layer, and tanh hidden layer.
 
-* LinearRegression.py - python version of simple linear regression from scratch!
+* LinearRegression.py - Gradient descent linear regression with l2 regularization.
 
-* LogisticRegression.py - gradient descent logistic regression. Currently gets 60% on admission dataset whereas R's default logistic regression gets 70%.
+* LogisticRegression.py - Gradient descent logistic regression with l2 regularization. 
 
-* popcorn.sentiment.sklearn.py - basic sentiment analysis script that converts list of phrases into bag of words features and does logistic regression. Achieved [kaggle](https://www.kaggle.com/c/word2vec-nlp-tutorial/leaderboard) score of .962 and 8th place at the time of writing. 
 
 # Usage
 
