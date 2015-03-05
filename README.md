@@ -11,7 +11,14 @@ Various machine learning algorithms broken down in basic and readable python cod
 
 # Usage
 
-####MultiLayerPerceptron Parameters####
+####MultiLayerPerceptron####
+#####Parameters#####
+-**input (int)**: Size of input layer, must match the number of features in the input dataset.
+
+-**hidden (int)**: Size of hidden layer, more hidden neurons can model more complex data at the cost of potentially overfitting.
+
+-**output (int)**: Size of output layers, must match the number of possible classes. Can use 1 for binary classification.
+
 -**iterations (int)**: controls the number of passes over the traning data (aka epochs). Defaults to 50
 
 -**learning_rate (float)**: The learning rate constant controls how much weights are updated on each iteration. Defaults to 0.01.
@@ -27,3 +34,25 @@ Various machine learning algorithms broken down in basic and readable python cod
 -**output_layer (string)**: Which activation function to use for the output layer. Currently accepts 'logistic' for logistic sigmoid or 'softmax' for softmax. Use softmax when the outputs are mutually exclusive. Defaults to 'logistic'.
 
 -**verbose (bool)**: Whether to print current error rate while training. Defaults to True.
+
+#####Fitting and predicting#####
+
+1) Initialize the network and setting up the size of each layer.
+```python
+NN = MLP_NeuralNetwork(64, 100, 10)
+```
+
+2) Train the network with the training dataset. The training dataset must be in format: 
+	[[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]],
+    [[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]],
+    ...
+    [[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]]]
+	
+```python
+NN.fit(train)
+```
+
+3) Make predictions on testing dataset. Same format as training dataset without the list of y values. Will return a list of predictions.
+```python
+NN.predict(X_test)
+```
