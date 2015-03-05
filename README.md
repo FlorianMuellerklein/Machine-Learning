@@ -24,6 +24,6 @@ Various machine learning algorithms broken down in basic and readable python cod
 
 -**rate_decay (float)**: How much to decrease learning rate on each iteration. The idea is to start with a high learning rate to avoid local minima and then slow down as the global minimum is approached. Defaults to 0 (off).
 
--**output_layer (string)**: Which activation function to use for the output layer. Currently accepts 'logistic' for logistic sigmoid or 'softmax' for softmax. Use softmax when the outputs are mutually exclusive. 
+-**output_layer (string)**: Which activation function to use for the output layer. Currently accepts 'logistic' for logistic sigmoid or 'softmax' for softmax. Use softmax when the outputs are mutually exclusive. Defaults to 'logistic'.
 
 -**verbose (bool)**: Whether to print current error rate while training. Defaults to True.
