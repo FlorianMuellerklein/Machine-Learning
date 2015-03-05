@@ -160,8 +160,10 @@ class MLP_Classifier(object):
         self.ci = change
 
         # calculate error
-        error = sum(0.5 * (targets - self.ao)**2)
-        #error = sum(targets * np.log(self.ao))
+        if self.output_activation == 'softmax':
+            error = -sum(targets * np.log(self.ao))
+        elif self.output_activation == 'logistic':
+            error = sum(0.5 * (targets - self.ao)**2)
         
         return error
 
