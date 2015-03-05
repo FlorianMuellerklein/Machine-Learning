@@ -12,10 +12,16 @@ Various machine learning algorithms broken down in basic and readable python cod
 # Usage
 
 ####MultiLayerPerceptron Parameters####
-    -iterations (int): controls the number of passes over the traning data (aka epochs). Defaults to 50
-    -learning_rate (float): The learning rate constant controls how much weights are updated on each iteration. Defaults to 0.01.
-    -l2_in (float): Weight decay regularization term for the input layer weights, keeps weights low to avoid overfitting. Useful when hidden layer is large. Defaults to 0 (off).
-    -l2_out (float): Weight decay regularization term for the hidden layer weights, keeps weights low to avoid overfitting. Useful when hidden layer is large. Defaults to 0 (off).
-    -momentum (float): Adds a fraction of the previous weight update to the current weight update. Is used to help system from converging at a local minimum. A high value can increase the learning speed but risks overshooting the minimum. A low momentum can get stuck in a local minimum and decreases the speed of learning. Defaults to 0 (off).
-    -rate_decay (float): How much to decrease learning rate on each iteration. The idea is to start with a high learning rate to avoid local minima and then slow down as the global minimum is approached. Defaults to 0 (off).
-    -verbose (True, False): Whether to print current error rate while training. Defaults to True.
+-iterations (int): controls the number of passes over the traning data (aka epochs). Defaults to 50
+
+-learning_rate (float): The learning rate constant controls how much weights are updated on each iteration. Defaults to 0.01.
+
+-l2_in (float): Weight decay regularization term for the input layer weights, keeps weights low to avoid overfitting. Useful when hidden layer is large. Defaults to 0 (off).
+
+-l2_out (float): Weight decay regularization term for the hidden layer weights, keeps weights low to avoid overfitting. Useful when hidden layer is large. Defaults to 0 (off).
+
+-momentum (float): Adds a fraction of the previous weight update to the current weight update. Is used to help system from converging at a local minimum. A high value can increase the learning speed but risks overshooting the minimum. A low momentum can get stuck in a local minimum and decreases the speed of learning. Defaults to 0 (off).
+
+-rate_decay (float): How much to decrease learning rate on each iteration. The idea is to start with a high learning rate to avoid local minima and then slow down as the global minimum is approached. Defaults to 0 (off).
+
+-verbose (True, False): Whether to print current error rate while training. Defaults to True.
