@@ -14,10 +14,10 @@ def sigmoid(x):
 def dsigmoid(y):
     return y * (1.0 - y)
 
-# using tanh over logistic sigmoid is recommended   
+# using tanh over logistic sigmoid is recommended
 def tanh(x):
     return math.tanh(x)
-    
+
 # derivative for tanh sigmoid
 def dtanh(y):
     return 1 - y*y
@@ -46,7 +46,7 @@ class MLP_NeuralNetwork(object):
         self.learning_rate = learning_rate
         self.momentum = momentum
         self.rate_decay = rate_decay
-        
+
         # initialize arrays
         self.input = input + 1 # add 1 for bias node
         self.hidden = hidden
@@ -63,7 +63,7 @@ class MLP_NeuralNetwork(object):
         output_range = 1.0 / self.hidden ** (1/2)
         self.wi = np.random.normal(loc = 0, scale = input_range, size = (self.input, self.hidden))
         self.wo = np.random.normal(loc = 0, scale = output_range, size = (self.hidden, self.output))
-        
+
         # create arrays of 0 for changes
         # this is essentially an array of temporary values that gets updated at each iteration
         # based on how much the weights need to change in the following iteration
@@ -180,8 +180,8 @@ class MLP_NeuralNetwork(object):
             if i % 10 == 0:
                 print('error %-.5f' % error)
             # learning rate decay
-            self.learning_rate = self.learning_rate * (self.learning_rate / (self.learning_rate + (self.learning_rate * self.rate_decay)))
-                
+            self.learning_rate /= (1.0 + self.rate_decay)
+
     def predict(self, X):
         """
         return list of predictions after training algorithm
@@ -202,12 +202,12 @@ def demo():
         y = data[:,0:10]
         #y[y == 0] = -1 # if you are using a tanh transfer function make the 0 into -1
         #y[y == 1] = .90 # try values that won't saturate tanh
-        
+
         data = data[:,10:] # x data
         #data = data - data.mean(axis = 1)
         data -= data.min() # scale the data so values are between 0 and 1
         data /= data.max() # scale
-        
+
         out = []
         print data.shape
 
