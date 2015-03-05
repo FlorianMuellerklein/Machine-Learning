@@ -11,8 +11,8 @@ Various machine learning algorithms broken down in basic and readable python cod
 
 # Usage
 
-####MultiLayerPerceptron####
-#####Parameters#####
+###MultiLayerPerceptron###
+####Parameters####
 -**input (int)**: Size of input layer, must match the number of features in the input dataset.
 
 -**hidden (int)**: Size of hidden layer, more hidden neurons can model more complex data at the cost of potentially overfitting.
@@ -35,7 +35,7 @@ Various machine learning algorithms broken down in basic and readable python cod
 
 -**verbose (bool)**: Whether to print current error rate while training. Defaults to True.
 
-#####Fitting and predicting#####
+####Fitting and predicting####
 
 1) Initialize the network and setting up the size of each layer.
 ```python
