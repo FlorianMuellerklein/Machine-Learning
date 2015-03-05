@@ -11,7 +11,7 @@ Various machine learning algorithms broken down in basic and readable python cod
 
 # Usage
 
-* MultiLayerPerceptron Parameters
+####MultiLayerPerceptron Parameters####
     -iterations (int): controls the number of passes over the traning data (aka epochs). Defaults to 50
     -learning_rate (float): The learning rate constant controls how much weights are updated on each iteration. Defaults to 0.01.
     -l2_in (float): Weight decay regularization term for the input layer weights, keeps weights low to avoid overfitting. Useful when hidden layer is large. Defaults to 0 (off).
