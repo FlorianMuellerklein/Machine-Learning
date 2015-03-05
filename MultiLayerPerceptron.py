@@ -230,8 +230,8 @@ def demo():
 
         # populate the tuple list with the data
         for i in range(data.shape[0]):
-            fart = list((data[i,:].tolist(), y[i].tolist())) # don't mind this variable name
-            out.append(fart)
+            tupledata = list((data[i,:].tolist(), y[i].tolist())) # don't mind this variable name
+            out.append(tupledata)
 
         return out
 
