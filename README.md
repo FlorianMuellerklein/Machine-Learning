@@ -89,3 +89,7 @@ linearReg.fit(X = X_train, y = y_train)
 ```python
 linearReg.predict(X_test)
 ```
+Logistic regression has one extra parameter for .predict. If labels is set to 'True' the predicted class is returned, otherwise the probability of the class being label 1 is returned.
+``` python
+l0git.predict(X_test, labels = True)
+```
