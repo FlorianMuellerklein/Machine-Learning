@@ -27,10 +27,10 @@ def dtanh(y):
 
 class MLP_Classifier(object):
     """
-    Basic MultiLayer Perceptron (MLP) network, adapted and updated from the book 'Programming Collective Intelligence' (http://shop.oreilly.com/product/9780596529321.do)
+    Basic MultiLayer Perceptron (MLP) neural network with regularization and learning rate decay
     Consists of three layers: input, hidden and output. The sizes of input and output must match data
     the size of hidden is user defined when initializing the network.
-    The algorithm has been generalized to be used on any dataset.
+    The algorithm can be used on any dataset.
     As long as the data is in this format: [[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]],
                                            [[[x1, x2, x3, ..., xn], [y1, y2, ..., yn]],
                                            ...
