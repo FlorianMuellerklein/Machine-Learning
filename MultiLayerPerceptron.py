@@ -74,9 +74,11 @@ class MLP_Classifier(object):
         self.ao = np.ones(self.output)
 
         # create randomized weights
-        # use scheme that takes into account size of each layer
-        self.wi = np.random.uniform(size = (self.input, self.hidden)) / np.sqrt(self.input)
-        self.wo = np.random.uniform(size = (self.hidden, self.output)) / np.sqrt(self.hidden)
+        # use scheme from Efficient Backprop by LeCun 1998 to initialize weights
+        input_range = 1.0 / self.input ** (1/2)
+        output_range = 1.0 / self.hidden ** (1/2)
+        self.wi = np.random.normal(loc = 0, scale = input_range, size = (self.input, self.hidden))
+        self.wo = np.random.normal(loc = 0, scale = output_range, size = (self.hidden, self.output))
         
         # create arrays of 0 for changes
         # this is essentially an array of temporary values that gets updated at each iteration
