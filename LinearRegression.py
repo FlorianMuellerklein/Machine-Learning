@@ -2,11 +2,17 @@ import numpy as np
 
 class LinReg(object):
     """
-    multivariate linear regression using gradient descent!!
-    takes three arguments: learning_rate (learning rate), number of iterations for SGD, and verbose if you want to see output
+    multivariate linear regression using gradient descent
     """
     def __init__(self, learning_rate = 0.01, iterations = 50, verbose = True, l2 = 0, 
                 intercept = True):
+        """
+        :param learning_rate: learning rate constant
+        :param iterations: how many epochs
+        :param intercept: whether to fit an intercept
+        :param verbose: whether to spit out error rates while training
+        :param l2: L2 regularization term
+        """
         self.learning_rate = learning_rate
         self.iterations = iterations
         self.intercept = intercept
@@ -18,7 +24,7 @@ class LinReg(object):
 
     def fit(self, X, y):
         """
-        Search algorithm - loops over theta and updates to
+        Gradient descent, loops over theta and updates to
         take steps in direction of steepest decrease of J.
         :return: value of theta that minimizes J(theta) and J_history
         """
