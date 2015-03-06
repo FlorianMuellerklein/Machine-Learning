@@ -38,9 +38,8 @@ class Logit(object):
 
     def fit(self, X, y):
         """
-        Search algorithm - loops over theta and updates to
+        Gradient descent, loops over theta and updates to
         take steps in direction of steepest decrease of J.
-
         :input x: must be numpy array
         :input y: must be numpy vector of 0 and 1
         :return: value of theta that minimizes J(theta) and J_history
