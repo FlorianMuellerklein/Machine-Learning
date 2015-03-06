@@ -5,16 +5,18 @@ class LinReg(object):
     multivariate linear regression using gradient descent
     """
     def __init__(self, learning_rate = 0.01, iterations = 50, verbose = True, l2 = 0, 
-                intercept = True):
+                tolerance = 0, intercept = True):
         """
         :param learning_rate: learning rate constant
         :param iterations: how many epochs
+        :param tolerance: the error value in which to stop training
         :param intercept: whether to fit an intercept
         :param verbose: whether to spit out error rates while training
         :param l2: L2 regularization term
         """
         self.learning_rate = learning_rate
         self.iterations = iterations
+        self.tolerance = tolerance
         self.intercept = intercept
         self.verbose = verbose
         self.l2 = l2
@@ -50,6 +52,10 @@ class LinReg(object):
                 print 'iteration:', i
                 print 'theta:', self.theta
                 print 'cost:', cost
+                
+            if cost < self.tolerance:
+                return self.theta
+                break
 
         return self.theta
 

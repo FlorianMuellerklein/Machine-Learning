@@ -57,3 +57,35 @@ NN.fit(train)
 ```python
 NN.predict(X_test)
 ```
+
+###Linear and Logistic Regression###
+####Parameters####
+-**learning_rate (float)**: The learning rate constant controls how much weights are updated on each iteration. Defaults to 0.01.
+
+-**iterations (int)**: controls the number of passes over the traning data (aka epochs). Defaults to 50.
+
+-**intercept (bool)**: Whether or not to fit an intercept. Defaults to True.
+
+-**L2 (float)**: Weight decay regularization term for the weights, keeps weights low to avoid overfitting. Defaults to 0 (off).
+
+-**tolerance (float)**: The error value in which to stop training. Defaults to 0 (off).
+
+-**verbose (bool)**: Whether to print current error rate while training. Defaults to True.
+
+####Fitting and predicting####
+
+1) Initialize the linear model.
+```python
+linearReg = LinReg(learning_rate = 0.1, iterations = 500, verbose = True, l2 = 0.001)
+```
+
+2) Train the model with the training dataset. The training dataset has to be a numpy array, the X and y values must be seperated into two different arrays.  
+	
+```python
+linearReg.fit(X = X_train, y = y_train)
+```
+
+3) Make predictions on testing dataset. Same format as training dataset without the array of y values. Will return a list of predictions.
+```python
+linearReg.predict(X_test)
+```

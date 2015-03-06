@@ -4,8 +4,7 @@ import numpy as np
 
 class Logit(object):
     """
-    logistic regression using gradient descent!!
-    takes three arguments: learning_rate (learning rate), number of iterations for SGD, and verbose if you want to see output
+    logistic regression using gradient descent
     """
     def __init__(self, learning_rate = 0.01, iterations = 100, verbose = True, 
                 tolerance = 0, l2 = 0, intercept = True):
