@@ -74,11 +74,10 @@ class MLP_Classifier(object):
         self.ao = np.ones(self.output)
 
         # create randomized weights
-        # use scheme from Efficient Backprop by LeCun 1998 to initialize weights
+        # use scheme from Efficient Backprop by LeCun 1998 to initialize weights for hidden layer
         input_range = 1.0 / self.input ** (1/2)
-        output_range = 1.0 / self.hidden ** (1/2)
         self.wi = np.random.normal(loc = 0, scale = input_range, size = (self.input, self.hidden))
-        self.wo = np.random.normal(loc = 0, scale = output_range, size = (self.hidden, self.output))
+        self.wo = np.random.uniform(size = (self.hidden, self.output)) / np.sqrt(self.hidden)
         
         # create arrays of 0 for changes
         # this is essentially an array of temporary values that gets updated at each iteration
@@ -184,6 +183,8 @@ class MLP_Classifier(object):
             elif self.output_activation == 'logistic':
                 print 'Using logistic sigmoid activation in output layer'
                 
+        num_example = np.shape(patterns)[0]
+                
         for i in range(self.iterations):
             error = 0.0
             random.shuffle(patterns)
@@ -198,7 +199,7 @@ class MLP_Classifier(object):
                 errorfile.close()
                 
             if i % 10 == 0 and self.verbose == True:
-                error = error/self.output
+                error = error/num_example
                 print('Training error %-.5f' % error)
                 
             # learning rate decay
@@ -228,7 +229,7 @@ def demo():
         data = scale(data)
         
         out = []
-        print data.shape
+        #print data.shape
 
         # populate the tuple list with the data
         for i in range(data.shape[0]):
@@ -236,17 +237,22 @@ def demo():
             out.append(tupledata)
 
         return out
-
+    
+    start = time.time()
+    
     X = load_data()
 
-    print X[9] # make sure the data looks right
+    #print X[9] # make sure the data looks right
 
-    NN = MLP_Classifier(64, 400, 10, iterations = 50, learning_rate = 0.01, 
+    NN = MLP_Classifier(64, 4000, 10, iterations = 50, learning_rate = 0.01, 
                         momentum = 0.5, rate_decay = 0.0001, 
                         output_layer = 'logistic')
 
     NN.fit(X)
-
+    
+    end = time.time()
+    print end - start
+    
     #NN.test(X)
 
 if __name__ == '__main__':
