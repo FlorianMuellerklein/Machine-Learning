@@ -10,8 +10,8 @@ Various machine learning algorithms broken down in basic and readable python cod
 
 # Usage
 
-###MultiLayerPerceptron###
-####Parameters####
+### MultiLayerPerceptron ###
+#### Parameters ####
 -**input (int)**: Size of input layer, must match the number of features in the input dataset.
 
 -**hidden (int)**: Size of hidden layer, more hidden neurons can model more complex data at the cost of potentially overfitting.
@@ -34,7 +34,7 @@ Various machine learning algorithms broken down in basic and readable python cod
 
 -**verbose (bool)**: Whether to print current error rate while training. Defaults to True.
 
-####Fitting and predicting####
+#### Fitting and predicting ####
 
 1) Initialize the network and setting up the size of each layer.
 ```python
@@ -58,8 +58,8 @@ NN.fit(train)
 NN.predict(X_test)
 ```
 
-###Linear and Logistic Regression###
-####Parameters####
+### Linear and Logistic Regression ###
+#### Parameters ####
 -**learning_rate (float)**: The learning rate constant controls how much weights are updated on each iteration. Defaults to 0.01.
 
 -**iterations (int)**: controls the number of passes over the traning data (aka epochs). Defaults to 50.
@@ -72,7 +72,7 @@ NN.predict(X_test)
 
 -**verbose (bool)**: Whether to print current error rate while training. Defaults to True.
 
-####Fitting and predicting####
+#### Fitting and predicting ####
 
 1) Initialize the linear model.
 ```python
